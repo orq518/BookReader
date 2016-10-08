@@ -28,9 +28,8 @@ package com.justwayward.reader.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.menu.MenuBuilder;
 import android.view.Gravity;
@@ -49,15 +48,16 @@ import com.justwayward.reader.component.AppComponent;
 import com.justwayward.reader.component.DaggerMainComponent;
 import com.justwayward.reader.service.DownloadBookService;
 import com.justwayward.reader.ui.contract.MainContract;
-import com.justwayward.reader.ui.fragment.CommunityFragment;
-import com.justwayward.reader.ui.fragment.FindFragment;
+import com.justwayward.reader.ui.fragment.BookCommentsFragment;
+import com.justwayward.reader.ui.fragment.BookStoreFragment;
+import com.justwayward.reader.ui.fragment.HotBookListFragment;
 import com.justwayward.reader.ui.fragment.RecommendFragment;
 import com.justwayward.reader.ui.presenter.MainActivityPresenter;
 import com.justwayward.reader.utils.LogUtils;
 import com.justwayward.reader.utils.SharedPreferencesUtil;
 import com.justwayward.reader.utils.ToastUtils;
 import com.justwayward.reader.view.LoginPopupWindow;
-import com.justwayward.reader.view.RVPIndicator;
+import com.justwayward.reader.view.TabWidgetLayout;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -66,27 +66,13 @@ import com.tencent.tauth.UiError;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
-
-import butterknife.Bind;
 
 /**
  * https://github.com/JustWayward/BookReader
  */
-public class MainActivity extends BaseActivity implements MainContract.View, LoginPopupWindow.LoginTypeListener {
-
-    @Bind(R.id.indicator)
-    RVPIndicator mIndicator;
-    @Bind(R.id.viewpager)
-    ViewPager mViewPager;
-
-    private List<Fragment> mTabContents;
-    private FragmentPagerAdapter mAdapter;
-    private List<String> mDatas;
+public class MainActivity extends BaseActivity implements MainContract.View, LoginPopupWindow.LoginTypeListener, TabWidgetLayout.OnTabSelectedListener {
 
     @Inject
     MainActivityPresenter mPresenter;
@@ -99,16 +85,30 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     private LoginPopupWindow popupWindow;
     public static Tencent mTencent;
     public IUiListener loginListener;
+    private FragmentManager fm;
+
+    RecommendFragment mRecommendFragment;
+    HotBookListFragment mHotBookListFragment;
+    BookStoreFragment mBookStoreFragment;
+//    CommunityFragment mCommunityFragment;
+    BookCommentsFragment mBookCommentsFragment;
+    private TabWidgetLayout mTabWidget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         startService(new Intent(this, DownloadBookService.class));
-
+        fm = getSupportFragmentManager();
         initDatas();
         configViews();
-
+        initTabs();
         mTencent = Tencent.createInstance("1105670298", MainActivity.this);
+    }
+
+    public void initTabs() {
+        mTabWidget = (TabWidgetLayout) findViewById(R.id.tab_widget);
+        mTabWidget.setOnTabSelectedListener(this);
+        showFragment(0);
     }
 
     @Override
@@ -126,47 +126,27 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 
     @Override
     public void initToolBar() {
-        mCommonToolbar.setLogo(R.mipmap.logo);
+//        mCommonToolbar.setLogo(R.mipmap.logo);
         setTitle("");
     }
 
     @Override
     public void initDatas() {
-        mDatas = Arrays.asList(getResources().getStringArray(R.array.home_tabs));
-        mTabContents = new ArrayList<>();
-        mTabContents.add(new RecommendFragment());
-        mTabContents.add(new CommunityFragment());
-        mTabContents.add(new FindFragment());
-
-        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public int getCount() {
-                return mTabContents.size();
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return mTabContents.get(position);
-            }
-        };
     }
 
     @Override
     public void configViews() {
-        mIndicator.setTabItemTitles(mDatas);
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.setOffscreenPageLimit(3);
-        mIndicator.setViewPager(mViewPager, 0);
-
         mPresenter.attachView(this);
     }
 
-    public void setCurrentItem(int position){
-        mViewPager.setCurrentItem(position);
+    public void setCurrentItem(int position) {
     }
+
+    Menu mMenu;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -176,6 +156,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.menu_rank:
+                mBookStoreFragment.onOptionsItemSelected(item);
+                break;
+            case R.id.menu_tags:
+                mHotBookListFragment.onOptionsItemSelected(item);
+                break;
             case R.id.action_search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
@@ -225,7 +211,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
             } else {
                 finish(); // 退出
             }
-        }else if(event.getKeyCode() == KeyEvent.KEYCODE_MENU){
+        } else if (event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
             return true;
         }
         return super.dispatchKeyEvent(event);
@@ -286,6 +272,81 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 
     }
 
+    @Override
+    public void onTabSelected(int index, int from) {
+        showFragment(index);
+    }
+
+    private void showFragment(int position) {
+        FragmentTransaction ft = fm.beginTransaction();
+        hideAllFragment(ft);
+        if (mMenu != null) {
+            mMenu.clear();
+        }
+        switch (position) {
+            case 0:
+                if (mRecommendFragment != null) {
+                    ft.show(mRecommendFragment);
+                } else {
+                    mRecommendFragment = new RecommendFragment();
+                    ft.add(R.id.frame_layout, mRecommendFragment);
+                }
+                if (mMenu != null) {
+                    getMenuInflater().inflate(R.menu.menu_main, mMenu);
+                }
+                break;
+            case 1:
+                if (mHotBookListFragment != null) {
+                    ft.show(mHotBookListFragment);
+                } else {
+                    mHotBookListFragment = new HotBookListFragment();
+                    ft.add(R.id.frame_layout, mHotBookListFragment);
+                }
+                if (mMenu != null) {
+                    getMenuInflater().inflate(R.menu.menu_subject, mMenu);
+                }
+                break;
+            case 2:
+                if (mBookStoreFragment != null) {
+                    ft.show(mBookStoreFragment);
+                } else {
+                    mBookStoreFragment = new BookStoreFragment();
+                    ft.add(R.id.frame_layout, mBookStoreFragment);
+                }
+                if (mMenu != null) {
+                    getMenuInflater().inflate(R.menu.menu_ranking, mMenu);
+                }
+                break;
+
+            case 3:
+                if (mBookCommentsFragment != null) {
+                    ft.show(mBookCommentsFragment);
+                } else {
+                    mBookCommentsFragment = new BookCommentsFragment();
+                    ft.add(R.id.frame_layout, mBookCommentsFragment);
+                }
+                if (mMenu != null) {
+                    getMenuInflater().inflate(R.menu.menu_main, mMenu);
+                }
+                break;
+        }
+        ft.commit();
+    }
+
+    private void hideAllFragment(FragmentTransaction ft) {
+        if (mRecommendFragment != null) {
+            ft.hide(mRecommendFragment);
+        }
+        if (mBookCommentsFragment != null) {
+            ft.hide(mBookCommentsFragment);
+        }
+        if (mBookStoreFragment != null) {
+            ft.hide(mBookStoreFragment);
+        }
+        if (mHotBookListFragment != null) {
+            ft.hide(mHotBookListFragment);
+        }
+    }
 
     public class BaseUIListener implements IUiListener {
 

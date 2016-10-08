@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
+    android:layout_height="wrap_content">
+
+    <CheckedTextView
+        android:id="@+id/item_icon"
+        android:layout_width="24dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/tabhost0_0"
+        android:checked="true"/>
+
+    <CheckedTextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="菜单"
+        android:textSize="13sp"/>
+
+</RelativeLayout>

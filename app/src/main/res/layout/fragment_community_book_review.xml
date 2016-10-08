@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+
     <com.justwayward.reader.view.SelectionLayout
         android:id="@+id/slOverall"
         android:layout_width="match_parent"

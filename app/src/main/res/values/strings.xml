@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">任阅</string>
+    <string name="app_name">阅读</string>
 
     <string name="add_tag">Add Tag</string>
 
@@ -55,6 +55,7 @@
     <string name="subject_book_msg">共%1$d本书 |&#160; %2$d人收藏</string>
 
     <!--主题书单相关-->
+    <string name="good_book_list">精品书单</string>
     <string name="subject_book_list">主题书单</string>
     <string name="subject_book_list_my_book_list">我的书单</string>
     <string name="subject_book_list_detail">书单详情</string>

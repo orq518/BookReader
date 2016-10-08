@@ -1,7 +1,15 @@
-package com.justwayward.reader.base;
+package com.justwayward.reader.ui.fragment;
+
+import android.view.MenuItem;
 
 import com.justwayward.reader.R;
+import com.justwayward.reader.base.BaseFragment;
+import com.justwayward.reader.base.Constant;
 import com.justwayward.reader.bean.support.SelectionEvent;
+import com.justwayward.reader.component.AppComponent;
+import com.justwayward.reader.component.DaggerFindComponent;
+import com.justwayward.reader.ui.activity.MainActivity;
+import com.justwayward.reader.ui.activity.TopRankActivity;
 import com.justwayward.reader.view.SelectionLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -12,10 +20,14 @@ import java.util.List;
 import butterknife.Bind;
 
 /**
- * @author yuyh.
- * @date 16/9/2.
+ * author：ou on 2016/10/8 14:39
+ * todo
  */
-public abstract class BaseCommuniteActivity extends BaseActivity implements SelectionLayout.OnSelectListener {
+public class BookCommentsFragment extends BaseFragment  implements SelectionLayout.OnSelectListener {
+
+
+    MainActivity mActivity;
+
 
     @Bind(R.id.slOverall)
     SelectionLayout slOverall;
@@ -68,18 +80,45 @@ public abstract class BaseCommuniteActivity extends BaseActivity implements Sele
     private String type = Constant.BookType.ALL;
     @Constant.SortType
     private String sort = Constant.SortType.DEFAULT;
+    @Override
+    public int getLayoutResId() {
+        return R.layout.activity_community_book_review;
+    }
 
     @Override
     public void initDatas() {
-        list = getTabList();
+        list = list2;
         if (slOverall != null) {
             slOverall.setData(list.toArray(new List[list.size()]));
             slOverall.setOnSelectListener(this);
         }
     }
 
-    protected abstract List<List<String>> getTabList();
 
+    @Override
+    public void configViews() {
+
+    }
+
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+        mActivity= (MainActivity) getActivity();
+        DaggerFindComponent.builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_rank) {
+            TopRankActivity.startActivity(mActivity);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void attachView() {
+    }
     @SuppressWarnings("WrongConstant")
     @Override
     public void onSelect(int index, int position, String title) {

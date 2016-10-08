@@ -27,7 +27,7 @@ public class SubjectBookListPresenter extends RxPresenter<SubjectBookListContrac
     public SubjectBookListPresenter(BookApi bookApi) {
         this.bookApi = bookApi;
     }
-
+//    http://api.zhuishushenqi.com/book-list/tagType
     @Override
     public void getBookListTags() {
         String key = StringUtils.creatAcacheKey("book-list-tags");

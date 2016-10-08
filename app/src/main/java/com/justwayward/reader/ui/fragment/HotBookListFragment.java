@@ -1,28 +1,26 @@
-package com.justwayward.reader.ui.activity;
+package com.justwayward.reader.ui.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
 import com.justwayward.reader.R;
-import com.justwayward.reader.base.BaseActivity;
+import com.justwayward.reader.base.BaseFragment;
 import com.justwayward.reader.bean.BookListTags;
 import com.justwayward.reader.bean.support.TagEvent;
 import com.justwayward.reader.common.OnRvItemClickListener;
 import com.justwayward.reader.component.AppComponent;
 import com.justwayward.reader.component.DaggerFindComponent;
+import com.justwayward.reader.ui.activity.MainActivity;
 import com.justwayward.reader.ui.adapter.SubjectTagsAdapter;
 import com.justwayward.reader.ui.contract.SubjectBookListContract;
-import com.justwayward.reader.ui.fragment.SubjectFragment;
 import com.justwayward.reader.ui.presenter.SubjectBookListPresenter;
 import com.justwayward.reader.utils.ToastUtils;
 import com.justwayward.reader.view.RVPIndicator;
@@ -39,7 +37,11 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class SubjectBookListActivity extends BaseActivity implements SubjectBookListContract.View, OnRvItemClickListener<String> {
+/**
+ * author：ou on 2016/10/8 14:39
+ * todo
+ */
+public class HotBookListFragment extends BaseFragment implements SubjectBookListContract.View, OnRvItemClickListener<String> {
 
     @Bind(R.id.indicatorSubject)
     RVPIndicator mIndicator;
@@ -60,42 +62,23 @@ public class SubjectBookListActivity extends BaseActivity implements SubjectBook
     @Inject
     SubjectBookListPresenter mPresenter;
 
+    MainActivity mActivity;
+    private FragmentManager fm;
     private String currentTag = "";
-
-    public static void startActivity(Context context) {
-        Intent intent = new Intent(context, SubjectBookListActivity.class);
-        context.startActivity(intent);
-    }
-
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_subject_book_list_tag;
-    }
-
-    @Override
-    protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerFindComponent.builder()
-                .appComponent(appComponent)
-                .build()
-                .inject(this);
-    }
-
-    @Override
-    public void initToolBar() {
-        mCommonToolbar.setTitle(R.string.subject_book_list);
-        mCommonToolbar.setNavigationIcon(R.drawable.ab_back);
+    public int getLayoutResId() {
+        return R.layout.fragment_subject_book_list_tag;
     }
 
     @Override
     public void initDatas() {
         mDatas = Arrays.asList(getResources().getStringArray(R.array.subject_tabs));
-
         mTabContents = new ArrayList<>();
         mTabContents.add(SubjectFragment.newInstance("", 0));
         mTabContents.add(SubjectFragment.newInstance("", 1));
         mTabContents.add(SubjectFragment.newInstance("", 2));
 
-        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+        mAdapter = new FragmentPagerAdapter(fm) {
             @Override
             public int getCount() {
                 return mTabContents.size();
@@ -108,27 +91,39 @@ public class SubjectBookListActivity extends BaseActivity implements SubjectBook
         };
     }
 
+
     @Override
     public void configViews() {
+
         mIndicator.setTabItemTitles(mDatas);
         mViewPager.setAdapter(mAdapter);
         mIndicator.setViewPager(mViewPager, 0);
 
         rvTags.setHasFixedSize(true);
-        rvTags.setLayoutManager(new LinearLayoutManager(this));
-        rvTags.addItemDecoration(new SupportDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        mTagAdapter = new SubjectTagsAdapter(this, mTagList);
+        rvTags.setLayoutManager(new LinearLayoutManager(mActivity));
+        rvTags.addItemDecoration(new SupportDividerItemDecoration(mActivity, LinearLayoutManager.VERTICAL));
+        mTagAdapter = new SubjectTagsAdapter(mActivity, mTagList);
         mTagAdapter.setItemClickListener(this);
         rvTags.setAdapter(mTagAdapter);
-
+//        Log.e("ouou","mPresenter:"+mPresenter);
+        if(mPresenter!=null) {
         mPresenter.attachView(this);
         mPresenter.getBookListTags();
+        }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_subject, menu);
-        return true;
+    protected void setupActivityComponent(AppComponent appComponent) {
+        mActivity= (MainActivity) getActivity();
+        fm = mActivity.getSupportFragmentManager();
+        DaggerFindComponent.builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public void attachView() {
     }
 
     @Override
@@ -141,19 +136,14 @@ public class SubjectBookListActivity extends BaseActivity implements SubjectBook
             }
             return true;
         }
-//        else if (item.getItemId() == R.id.menu_my_book_list) {
-//            startActivity(new Intent(this, MyBookListActivity.class));
-//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onBackPressed() {
-        if (isVisible(rsvTags)) {
-            hideTagGroup();
-        } else {
-            super.onBackPressed();
-        }
+    public void onItemClick(View view, int position, String data) {
+        hideTagGroup();
+        currentTag = data;
+        EventBus.getDefault().post(new TagEvent(currentTag));
     }
 
     @Override
@@ -170,15 +160,8 @@ public class SubjectBookListActivity extends BaseActivity implements SubjectBook
 
     @Override
     public void complete() {
-    }
 
-    @Override
-    public void onItemClick(View view, int position, String data) {
-        hideTagGroup();
-        currentTag = data;
-        EventBus.getDefault().post(new TagEvent(currentTag));
     }
-
     private void showTagGroup() {
         if (mTagList.isEmpty()) {
             ToastUtils.showToast(getString(R.string.network_error_tips));

@@ -6,6 +6,9 @@ import com.justwayward.reader.ui.activity.SubjectBookListActivity;
 import com.justwayward.reader.ui.activity.SubjectBookListDetailActivity;
 import com.justwayward.reader.ui.activity.TopCategoryListActivity;
 import com.justwayward.reader.ui.activity.TopRankActivity;
+import com.justwayward.reader.ui.fragment.BookCommentsFragment;
+import com.justwayward.reader.ui.fragment.BookStoreFragment;
+import com.justwayward.reader.ui.fragment.HotBookListFragment;
 import com.justwayward.reader.ui.fragment.SubCategoryFragment;
 import com.justwayward.reader.ui.fragment.SubRankFragment;
 import com.justwayward.reader.ui.fragment.SubjectFragment;
@@ -39,4 +42,8 @@ public interface FindComponent {
     SubjectFragment inject(SubjectFragment subjectFragment);
 
     SubjectBookListDetailActivity inject(SubjectBookListDetailActivity categoryListActivity);
+
+    HotBookListFragment inject(HotBookListFragment hotBookListFragment);
+    BookStoreFragment inject(BookStoreFragment bookStoreFragment);
+    BookCommentsFragment inject(BookCommentsFragment bookCommentsFragment);
 }
