@@ -159,6 +159,9 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.menu_all_comment:
+                BookDiscussionActivity.startActivity(this);
+                break;
             case R.id.menu_rank:
                 mBookStoreFragment.onOptionsItemSelected(item);
                 break;

@@ -8,6 +8,10 @@
         android:title="action_search"
         android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
         app:showAsAction="ifRoom"/>
-
+    <item
+        android:id="@+id/menu_all_comment"
+        android:orderInCategory="80"
+        android:title="综合讨论"
+        app:showAsAction="always" />
 
 </menu>
