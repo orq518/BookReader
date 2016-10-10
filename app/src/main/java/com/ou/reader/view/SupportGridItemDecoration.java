@@ -3,22 +3,46 @@ package com.ou.reader.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.TypedValue;
 import android.view.View;
+
+import com.ou.reader.R;
 
 public class SupportGridItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private Drawable mDivider;
+    /**
+     * item之间分割线的size，默认为1
+     */
+    private int mItemSize = 1 ;
+
+    /**
+     * 绘制item分割线的画笔，和设置其属性
+     * 来绘制个性分割线
+     */
+    private Paint mPaint ;
+
+    private int deviderColor = Color.GRAY ;
 
     public SupportGridItemDecoration(Context context) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
+
+        deviderColor=context.getResources().getColor(R.color.home_tab_bg);
+        mItemSize = (int) TypedValue.applyDimension(mItemSize, TypedValue.COMPLEX_UNIT_DIP,context.getResources().getDisplayMetrics());
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG) ;
+        mPaint.setColor(deviderColor);
+         /*设置填充*/
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -42,39 +66,73 @@ public class SupportGridItemDecoration extends RecyclerView.ItemDecoration {
         }
         return spanCount;
     }
-
-    public void drawHorizontal(Canvas c, RecyclerView parent) {
-        int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            final View child = parent.getChildAt(i);
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                    .getLayoutParams();
-            final int left = child.getLeft() - params.leftMargin;
-            final int right = child.getRight() + params.rightMargin
-                    + mDivider.getIntrinsicWidth();
-            final int top = child.getBottom() + params.bottomMargin;
-            final int bottom = top + mDivider.getIntrinsicHeight();
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+    /**
+     * 绘制纵向 item 分割线
+     * @param canvas
+     * @param parent
+     */
+    private void drawVertical(Canvas canvas,RecyclerView parent){
+        final int left = parent.getPaddingLeft() ;
+        final int right = parent.getMeasuredWidth() - parent.getPaddingRight() ;
+        final int childSize = parent.getChildCount() ;
+        for(int i = 0 ; i < childSize ; i ++){
+            final View child = parent.getChildAt( i ) ;
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final int top = child.getBottom() + layoutParams.bottomMargin ;
+            final int bottom = top + mItemSize ;
+            canvas.drawRect(left,top,right,bottom,mPaint);
         }
     }
 
-    public void drawVertical(Canvas c, RecyclerView parent) {
-        final int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            final View child = parent.getChildAt(i);
-
-            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
-                    .getLayoutParams();
-            final int top = child.getTop() - params.topMargin;
-            final int bottom = child.getBottom() + params.bottomMargin;
-            final int left = child.getRight() + params.rightMargin;
-            final int right = left + mDivider.getIntrinsicWidth();
-
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+    /**
+     * 绘制横向 item 分割线
+     * @param canvas
+     * @param parent
+     */
+    private void drawHorizontal(Canvas canvas,RecyclerView parent){
+        final int top = parent.getPaddingTop() ;
+        final int bottom = parent.getMeasuredHeight() - parent.getPaddingBottom() ;
+        final int childSize = parent.getChildCount() ;
+        for(int i = 0 ; i < childSize ; i ++){
+            final View child = parent.getChildAt( i ) ;
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
+            final int left = child.getRight() + layoutParams.rightMargin ;
+            final int right = left + mItemSize ;
+            canvas.drawRect(left,top,right,bottom,mPaint);
         }
     }
+//    public void drawHorizontal(Canvas c, RecyclerView parent) {
+//        int childCount = parent.getChildCount();
+//        for (int i = 0; i < childCount; i++) {
+//            final View child = parent.getChildAt(i);
+//            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+//                    .getLayoutParams();
+//            final int left = child.getLeft() - params.leftMargin;
+//            final int right = child.getRight() + params.rightMargin
+//                    + mDivider.getIntrinsicWidth();
+//            final int top = child.getBottom() + params.bottomMargin;
+//            final int bottom = top + mDivider.getIntrinsicHeight();
+//            mDivider.setBounds(left, top, right, bottom);
+//            mDivider.draw(c);
+//        }
+//    }
+//
+//    public void drawVertical(Canvas c, RecyclerView parent) {
+//        final int childCount = parent.getChildCount();
+//        for (int i = 0; i < childCount; i++) {
+//            final View child = parent.getChildAt(i);
+//
+//            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+//                    .getLayoutParams();
+//            final int top = child.getTop() - params.topMargin;
+//            final int bottom = child.getBottom() + params.bottomMargin;
+//            final int left = child.getRight() + params.rightMargin;
+//            final int right = left + mDivider.getIntrinsicWidth();
+//
+//            mDivider.setBounds(left, top, right, bottom);
+//            mDivider.draw(c);
+//        }
+//    }
 
     private boolean isLastColum(RecyclerView parent, int pos, int spanCount,
                                 int childCount) {

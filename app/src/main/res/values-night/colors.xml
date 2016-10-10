@@ -23,5 +23,5 @@
     <color name="common_divider_narrow">#232323</color>
     <!--通用分割线粗-->
     <color name="common_divider_wide">#333333</color>
-
+    <color name="home_tab_bg">#292929</color>
 </resources>

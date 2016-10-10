@@ -104,4 +104,9 @@ public class BookDiscussionFragment extends BaseRVFragment<BookDiscussionPresent
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public boolean goback() {
+        return false;
+    }
+
 }

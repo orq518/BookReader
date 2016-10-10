@@ -121,6 +121,11 @@ public class SubjectFragment extends BaseRVFragment<SubjectFragmentPresenter, Bo
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     public void onItemClick(int position) {
         SubjectBookListDetailActivity.startActivity(activity, mAdapter.getItem(position));
     }

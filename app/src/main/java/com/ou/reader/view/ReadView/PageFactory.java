@@ -211,14 +211,15 @@ public class PageFactory {
                 y += mFontSize;
             }
             // 绘制提示内容
-            if (batteryBitmap != null) {
-                canvas.drawBitmap(batteryBitmap, marginWidth + 2,
-                        mHeight - marginHeight - ScreenUtils.dpToPxInt(12), mTitlePaint);
-            }
 
             float percent = (float) currentChapter * 100 / chapterSize;
-            canvas.drawText(decimalFormat.format(percent) + "%", (mWidth - percentLen) / 2,
+            canvas.drawText(decimalFormat.format(percent) + "%", marginWidth + 2,
                     mHeight - marginHeight, mTitlePaint);
+
+            if (batteryBitmap != null) {
+                canvas.drawBitmap(batteryBitmap, (mWidth - batteryBitmap.getWidth()) / 2,
+                        mHeight - marginHeight - ScreenUtils.dpToPxInt(12), mTitlePaint);
+            }
 
             String mTime = dateFormat.format(new Date());
             canvas.drawText(mTime, mWidth - marginWidth - timeLen, mHeight - marginHeight, mTitlePaint);

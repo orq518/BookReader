@@ -112,6 +112,11 @@ public class SubCategoryFragment extends BaseRVFragment<SubCategoryFragmentPrese
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     public void onItemClick(int position) {
         BooksByCats.BooksBean data = mAdapter.getItem(position);
         BookDetailActivity.startActivity(activity, data._id);

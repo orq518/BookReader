@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/ivBookCover"
-        android:layout_width="45dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/book_cover_width"
+        android:layout_height="@dimen/book_cover_height"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="10dp"
         android:scaleType="centerCrop" />

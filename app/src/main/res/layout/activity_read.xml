@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:visibility="invisible"
             android:text="@string/book_read_reading"
             android:textSize="@dimen/book_read_top_text"
             android:textColor="@color/book_read_top_text" />

@@ -101,4 +101,9 @@ public class BookHelpFragment extends BaseRVFragment<BookHelpPresenter, BookHelp
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public boolean goback() {
+        return false;
+    }
+
 }

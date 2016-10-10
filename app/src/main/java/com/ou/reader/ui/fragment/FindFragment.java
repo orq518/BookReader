@@ -61,6 +61,11 @@ public class FindFragment extends BaseFragment implements OnRvItemClickListener<
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     protected void setupActivityComponent(AppComponent appComponent) {
 
     }

@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/action_search"
+        android:orderInCategory="80"
+        android:title="action_search"
+        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/menu_tags"
         android:orderInCategory="80"
         android:title="筛选"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/zhuti_booklist"
-        android:orderInCategory="80"
-        android:title="主题书单"
-        app:showAsAction="always"/>
 </menu>

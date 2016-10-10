@@ -78,8 +78,8 @@
 
         <ImageView
             android:id="@+id/ivBookCover"
-            android:layout_width="45dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/book_cover_width"
+            android:layout_height="@dimen/book_cover_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
@@ -142,6 +142,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="15dp">
 
         <ImageView
@@ -166,12 +167,14 @@
         android:layout_height="wrap_content"
         android:background="@color/common_gray_bg"
         android:padding="15dp"
+        android:visibility="gone"
         android:text="@string/book_review_detail_to_review_the_scoring"
         android:textColor="@color/common_h3" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:padding="10dp">
 

@@ -77,6 +77,11 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         mActivity= (MainActivity) getActivity();
         DaggerFindComponent.builder()

@@ -72,6 +72,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/shape_common_btn_selector"
             android:gravity="center"
+            android:visibility="gone"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

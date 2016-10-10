@@ -25,7 +25,6 @@ import com.ou.reader.ui.presenter.SubjectBookListPresenter;
 import com.ou.reader.utils.ToastUtils;
 import com.ou.reader.view.RVPIndicator;
 import com.ou.reader.view.ReboundScrollView;
-import com.ou.reader.view.SupportDividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -101,7 +100,7 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
 
         rvTags.setHasFixedSize(true);
         rvTags.setLayoutManager(new LinearLayoutManager(mActivity));
-        rvTags.addItemDecoration(new SupportDividerItemDecoration(mActivity, LinearLayoutManager.VERTICAL));
+//        rvTags.addItemDecoration(new SupportDividerItemDecoration(mActivity, LinearLayoutManager.VERTICAL));
         mTagAdapter = new SubjectTagsAdapter(mActivity, mTagList);
         mTagAdapter.setItemClickListener(this);
         rvTags.setAdapter(mTagAdapter);
@@ -110,6 +109,15 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
         mPresenter.attachView(this);
         mPresenter.getBookListTags();
         }
+    }
+
+    @Override
+    public boolean goback() {
+        if (isVisible(rsvTags)) {
+            hideTagGroup();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -167,9 +175,9 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
             ToastUtils.showToast(getString(R.string.network_error_tips));
             return;
         }
-        Animation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+        Animation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, -1.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f);
         mShowAction.setDuration(400);
         rsvTags.startAnimation(mShowAction);
@@ -178,9 +186,9 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
 
     private void hideTagGroup() {
         Animation mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, -1.0f);
+                Animation.RELATIVE_TO_SELF, 0.0f);
         mHiddenAction.setDuration(400);
         rsvTags.startAnimation(mHiddenAction);
         rsvTags.setVisibility(View.GONE);

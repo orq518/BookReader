@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -67,23 +69,23 @@ public class RecommendFragment extends BaseRVFragment<RecommendPresenter, Recomm
     public void configViews() {
         initAdapter(RecommendAdapter.class, true, false);
         mAdapter.setOnItemLongClickListener(this);
-//        mAdapter.addFooter(new RecyclerArrayAdapter.ItemView() {
-//            @Override
-//            public View onCreateView(ViewGroup parent) {
-//                View headerView = LayoutInflater.from(activity).inflate(R.layout.foot_view_shelf, parent, false);
-//                return headerView;
-//            }
-//
-//            @Override
-//            public void onBindView(View headerView) {
-//                headerView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ((MainActivity) activity).setCurrentItem(2);
-//                    }
-//                });
-//            }
-//        });
+        mAdapter.addFooter(new RecyclerArrayAdapter.ItemView() {
+            @Override
+            public View onCreateView(ViewGroup parent) {
+                View headerView = LayoutInflater.from(activity).inflate(R.layout.foot_view_shelf, parent, false);
+                return headerView;
+            }
+
+            @Override
+            public void onBindView(View headerView) {
+                headerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity) activity).setCurrentItem(2);
+                    }
+                });
+            }
+        });
         onRefresh();
     }
 
@@ -154,21 +156,17 @@ public class RecommendFragment extends BaseRVFragment<RecommendPresenter, Recomm
                                                 mAdapter.getItem(position)._id);
                                         break;
                                     case 2:
-                                        //移入养肥区
-                                        ToastUtils.showToast("正在拼命开发中...");
-                                        break;
-                                    case 3:
                                         //缓存全本
                                         showDialog();
                                         mPresenter.getTocList(mAdapter.getItem(position)._id);
                                         break;
-                                    case 4:
+                                    case 3:
                                         //删除
                                         List<Recommend.RecommendBooks> removeList = new ArrayList<>();
                                         removeList.add(mAdapter.getItem(position));
                                         showDeleteCacheDialog(removeList);
                                         break;
-                                    case 5:
+                                    case 4:
                                         //批量管理
                                         showBatchManagementLayout();
                                         break;
@@ -360,6 +358,11 @@ public class RecommendFragment extends BaseRVFragment<RecommendPresenter, Recomm
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean goback() {
+        return false;
     }
 
     private boolean isForeground() {

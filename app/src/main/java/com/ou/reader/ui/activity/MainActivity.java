@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.menu.MenuBuilder;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -42,7 +41,7 @@ import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.ou.reader.R;
 import com.ou.reader.base.BaseActivity;
-import com.ou.reader.base.Constant;
+import com.ou.reader.base.BaseFragment;
 import com.ou.reader.bean.user.TencentLoginResult;
 import com.ou.reader.component.AppComponent;
 import com.ou.reader.component.DaggerMainComponent;
@@ -54,7 +53,6 @@ import com.ou.reader.ui.fragment.HotBookListFragment;
 import com.ou.reader.ui.fragment.RecommendFragment;
 import com.ou.reader.ui.presenter.MainActivityPresenter;
 import com.ou.reader.utils.LogUtils;
-import com.ou.reader.utils.SharedPreferencesUtil;
 import com.ou.reader.utils.ToastUtils;
 import com.ou.reader.view.LoginPopupWindow;
 import com.ou.reader.view.TabWidgetLayout;
@@ -72,7 +70,8 @@ import javax.inject.Inject;
 /**
  * https://github.com/JustWayward/BookReader
  */
-public class MainActivity extends BaseActivity implements MainContract.View, LoginPopupWindow.LoginTypeListener, TabWidgetLayout.OnTabSelectedListener {
+public class MainActivity extends BaseActivity implements MainContract.View, LoginPopupWindow.LoginTypeListener,
+        TabWidgetLayout.OnTabSelectedListener {
 
     @Inject
     MainActivityPresenter mPresenter;
@@ -93,6 +92,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 //    CommunityFragment mCommunityFragment;
     BookCommentsFragment mBookCommentsFragment;
     private TabWidgetLayout mTabWidget;
+    Menu mMenu;
+    BaseFragment curFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         mTabWidget = (TabWidgetLayout) findViewById(R.id.tab_widget);
         mTabWidget.setOnTabSelectedListener(this);
         showFragment(0);
+        mTabWidget.setTabsDisplay(this, 0);
     }
 
     @Override
@@ -126,7 +128,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 
     @Override
     public void initToolBar() {
-//        mCommonToolbar.setLogo(R.mipmap.logo);
+//        mCommonToolbar.setLogo(R.drawable.left_icon);
         setTitle("");
     }
 
@@ -140,9 +142,10 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     }
 
     public void setCurrentItem(int position) {
+        showFragment(position);
+        mTabWidget.setTabsDisplay(this, position);
     }
 
-    Menu mMenu;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,9 +159,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.zhuti_booklist:
-                SubjectBookListActivity.startActivity(this);
-                break;
             case R.id.menu_rank:
                 mBookStoreFragment.onOptionsItemSelected(item);
                 break;
@@ -175,28 +175,28 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                 }
                 popupWindow.showAtLocation(mCommonToolbar, Gravity.CENTER, 0, 0);
                 break;
-            case R.id.action_my_message:
-                break;
-            case R.id.action_sync_bookshelf:
-                break;
-            case R.id.action_scan_local_book:
-                break;
-            case R.id.action_wifi_book:
-                break;
-            case R.id.action_feedback:
-                break;
-            case R.id.action_night_mode:
-                if (SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false)) {
-                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, false);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                } else {
-                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, true);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-                recreate();
-                break;
-            case R.id.action_settings:
-                break;
+//            case R.id.action_my_message:
+//                break;
+//            case R.id.action_sync_bookshelf:
+//                break;
+//            case R.id.action_scan_local_book:
+//                break;
+//            case R.id.action_wifi_book:
+//                break;
+//            case R.id.action_feedback:
+//                break;
+//            case R.id.action_night_mode:
+//                if (SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false)) {
+//                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, false);
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                } else {
+//                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, true);
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                }
+//                recreate();
+//                break;
+//            case R.id.action_settings:
+//                break;
             default:
                 break;
         }
@@ -207,6 +207,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN
                 && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+
+                if (curFragment!=null&&curFragment.goback()){
+                    return true;
+                }
+
+
             if (System.currentTimeMillis() - currentBackPressedTime > BACK_PRESSED_INTERVAL) {
                 currentBackPressedTime = System.currentTimeMillis();
                 ToastUtils.showToast(getString(R.string.exit_tips));
@@ -297,6 +303,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                 if (mMenu != null) {
                     getMenuInflater().inflate(R.menu.menu_main, mMenu);
                 }
+                curFragment=mRecommendFragment;
                 break;
             case 1:
                 if (mHotBookListFragment != null) {
@@ -308,6 +315,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                 if (mMenu != null) {
                     getMenuInflater().inflate(R.menu.menu_subject_fragment, mMenu);
                 }
+                curFragment=mHotBookListFragment;
                 break;
             case 2:
                 if (mBookStoreFragment != null) {
@@ -319,6 +327,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                 if (mMenu != null) {
                     getMenuInflater().inflate(R.menu.menu_ranking, mMenu);
                 }
+                curFragment=mBookStoreFragment;
                 break;
 
             case 3:
@@ -331,6 +340,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                 if (mMenu != null) {
                     getMenuInflater().inflate(R.menu.menu_comment, mMenu);
                 }
+                curFragment=mBookCommentsFragment;
                 break;
         }
         ft.commit();

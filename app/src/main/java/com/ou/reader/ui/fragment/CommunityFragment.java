@@ -55,6 +55,11 @@ public class CommunityFragment extends BaseFragment implements OnRvItemClickList
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     protected void setupActivityComponent(AppComponent appComponent) {
 
     }

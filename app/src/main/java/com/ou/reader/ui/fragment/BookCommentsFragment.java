@@ -101,6 +101,11 @@ public class BookCommentsFragment extends BaseFragment  implements SelectionLayo
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         mActivity= (MainActivity) getActivity();
         DaggerFindComponent.builder()

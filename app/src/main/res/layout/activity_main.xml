@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/home_tab_bg"
+        android:background="@color/red_main_color"
         android:gravity="center"/>
     <View
         android:id="@+id/line"

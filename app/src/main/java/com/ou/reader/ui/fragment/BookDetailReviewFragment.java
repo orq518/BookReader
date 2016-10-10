@@ -119,4 +119,9 @@ public class BookDetailReviewFragment extends BaseRVFragment<BookDetailReviewPre
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public boolean goback() {
+        return false;
+    }
 }

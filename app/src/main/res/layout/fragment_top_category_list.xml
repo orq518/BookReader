@@ -1,50 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/common_bg"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/common_bg"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
     <com.ou.reader.view.ReboundScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/male"
-                android:background="@color/light_blue"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/male"
+                    android:textColor="@color/common_h2"
+                    android:textSize="18sp"/>
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerHorizontal="true"
+                           android:src="@drawable/bookstore_title_bg"/>
+            </RelativeLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.1dp"
+            android:background="@color/common_divider_narrow"
+            />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvMaleCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/female"
-                android:background="@color/light_blue"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
+                android:layout_gravity="center"/>
+            <View android:layout_width="match_parent" android:layout_height="0.1dp"
+                  android:background="@color/common_divider_narrow"
+            />
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/female"
+                    android:textColor="@color/common_h2"
+                    android:textSize="18sp"/>
+                <ImageView android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_centerHorizontal="true"
+                           android:src="@drawable/bookstore_title_bg"/>
+            </RelativeLayout>
+            <View android:layout_width="match_parent" android:layout_height="0.1dp"
+                  android:background="@color/common_divider_narrow"
+            />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvFemaleCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"/>
 
         </LinearLayout>
     </com.ou.reader.view.ReboundScrollView>

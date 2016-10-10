@@ -50,6 +50,11 @@ public class SubRankFragment extends BaseRVFragment<SubRankPresenter, BooksByCat
     }
 
     @Override
+    public boolean goback() {
+        return false;
+    }
+
+    @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerFindComponent.builder()
                 .appComponent(appComponent)
