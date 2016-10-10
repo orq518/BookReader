@@ -14,7 +14,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Theme.ToolBar.Menu"/>
 
-    <com.justwayward.reader.view.TabWidgetLayout
+    <com.ou.reader.view.TabWidgetLayout
         android:id="@+id/tab_widget"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

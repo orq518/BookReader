@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.justwayward.reader.view.RVPIndicator
+            <com.ou.reader.view.RVPIndicator
                 android:id="@+id/indicatorSubject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 android:paddingBottom="10dp"
                 rvp:indicator_style="line"
                 rvp:item_count="3"
-                rvp:text_color_hightlight="@color/light_pink"
+                rvp:text_color_hightlight="@color/white"
                 rvp:text_color_normal="@color/white" />
 
             <android.support.v4.view.ViewPager
@@ -36,7 +36,7 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <com.justwayward.reader.view.ReboundScrollView
+        <com.ou.reader.view.ReboundScrollView
             android:id="@+id/rsvTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/common_gray_bg"
                 android:paddingTop="10dp" />
-        </com.justwayward.reader.view.ReboundScrollView>
+        </com.ou.reader.view.ReboundScrollView>
     </FrameLayout>
 
 </LinearLayout>

@@ -8,7 +8,7 @@
 
     <include layout="@layout/common_toolbar" />
 
-    <com.justwayward.reader.view.ReboundScrollView
+    <com.ou.reader.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layerType="software">
@@ -26,7 +26,7 @@
                 android:textColor="@color/common_h1"
                 android:textSize="18dp" />
 
-            <com.justwayward.reader.view.CustomExpandableListView
+            <com.ou.reader.view.CustomExpandableListView
                 android:id="@+id/elvMale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:textColor="@color/common_h1"
                 android:textSize="18dp" />
 
-            <com.justwayward.reader.view.CustomExpandableListView
+            <com.ou.reader.view.CustomExpandableListView
                 android:id="@+id/elvFeMale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,6 +50,6 @@
                 android:groupIndicator="@null"
                 android:listSelector="@drawable/shape_common_selector" />
         </LinearLayout>
-    </com.justwayward.reader.view.ReboundScrollView>
+    </com.ou.reader.view.ReboundScrollView>
 
 </LinearLayout>

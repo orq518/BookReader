@@ -50,20 +50,20 @@
         android:textColor="@color/common_h1"
         tools:text="越到后面越索然无味" />
 
-    <com.justwayward.reader.view.XLHRatingBar xmlns:xlhRatingBar="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/ivBookCover"
-        xlhRatingBar:canEdit="false"
-        xlhRatingBar:countSelected="2"
-        xlhRatingBar:differentSize="false"
-        xlhRatingBar:dividerWidth="1dp"
-        xlhRatingBar:starCount="5"
-        xlhRatingBar:stateResId="@drawable/hot_review_rating_bar_selector"
-        xlhRatingBar:widthAndHeight="15dp" />
+    <com.ou.reader.view.XLHRatingBar xmlns:xlhRatingBar="http://schemas.android.com/apk/res-auto"
+                                     android:id="@+id/rating"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_below="@id/tvTitle"
+                                     android:layout_marginTop="5dp"
+                                     android:layout_toRightOf="@+id/ivBookCover"
+                                     xlhRatingBar:canEdit="false"
+                                     xlhRatingBar:countSelected="2"
+                                     xlhRatingBar:differentSize="false"
+                                     xlhRatingBar:dividerWidth="1dp"
+                                     xlhRatingBar:starCount="5"
+                                     xlhRatingBar:stateResId="@drawable/hot_review_rating_bar_selector"
+                                     xlhRatingBar:widthAndHeight="15dp" />
 
     <TextView
         android:id="@+id/tvContent"

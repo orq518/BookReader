@@ -1,7 +1,7 @@
-<com.justwayward.reader.view.recyclerview.swipe.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ptr_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<com.ou.reader.view.recyclerview.swipe.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                          android:id="@+id/ptr_layout"
+                                                          android:layout_width="match_parent"
+                                                          android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@android:id/list"
@@ -39,4 +39,4 @@
         android:textColor="@color/white"
         android:visibility="gone"/>
 
-</com.justwayward.reader.view.recyclerview.swipe.SwipeRefreshLayout>
+</com.ou.reader.view.recyclerview.swipe.SwipeRefreshLayout>

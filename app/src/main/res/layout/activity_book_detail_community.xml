@@ -8,7 +8,7 @@
 
     <include layout="@layout/common_toolbar" />
 
-    <com.justwayward.reader.view.RVPIndicator
+    <com.ou.reader.view.RVPIndicator
         android:id="@+id/indicatorSubRank"
         android:layout_width="match_parent"
         android:layout_height="55dp"

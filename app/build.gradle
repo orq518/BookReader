@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.justwayward.reader"
+        applicationId "com.ou.reader"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1

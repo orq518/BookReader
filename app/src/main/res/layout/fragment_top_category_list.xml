@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.justwayward.reader.view.ReboundScrollView
+    <com.ou.reader.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/male"
-                android:background="@color/read_theme_green"
+                android:background="@color/light_blue"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/female"
-                android:background="@color/read_theme_green"
+                android:background="@color/light_blue"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -47,5 +47,5 @@
                 android:layout_gravity="center" />
 
         </LinearLayout>
-    </com.justwayward.reader.view.ReboundScrollView>
+    </com.ou.reader.view.ReboundScrollView>
 </LinearLayout>
