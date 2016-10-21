@@ -43,7 +43,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class RecommendFragment extends BaseRVFragment<RecommendPresenter, Recommend.RecommendBooks> implements RecommendContract.View, RecyclerArrayAdapter.OnItemLongClickListener {
+public class BookcaseFragment extends BaseRVFragment<RecommendPresenter, Recommend.RecommendBooks> implements RecommendContract.View, RecyclerArrayAdapter.OnItemLongClickListener {
 
     @Bind(R.id.llBatchManagement)
     LinearLayout llBatchManagement;

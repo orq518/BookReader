@@ -49,8 +49,8 @@ import com.ou.reader.service.DownloadBookService;
 import com.ou.reader.ui.contract.MainContract;
 import com.ou.reader.ui.fragment.BookCommentsFragment;
 import com.ou.reader.ui.fragment.BookStoreFragment;
+import com.ou.reader.ui.fragment.BookcaseFragment;
 import com.ou.reader.ui.fragment.HotBookListFragment;
-import com.ou.reader.ui.fragment.RecommendFragment;
 import com.ou.reader.ui.presenter.MainActivityPresenter;
 import com.ou.reader.utils.LogUtils;
 import com.ou.reader.utils.ToastUtils;
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public IUiListener loginListener;
     private FragmentManager fm;
 
-    RecommendFragment mRecommendFragment;
+    BookcaseFragment mBookcaseFragment;
     HotBookListFragment mHotBookListFragment;
     BookStoreFragment mBookStoreFragment;
 //    CommunityFragment mCommunityFragment;
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 
     @Override
     public void initToolBar() {
-//        mCommonToolbar.setLogo(R.drawable.left_icon);
+        mCommonToolbar.setLogo(R.drawable.left_icon);
         setTitle("");
     }
 
@@ -297,16 +297,16 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         }
         switch (position) {
             case 0:
-                if (mRecommendFragment != null) {
-                    ft.show(mRecommendFragment);
+                if (mBookcaseFragment != null) {
+                    ft.show(mBookcaseFragment);
                 } else {
-                    mRecommendFragment = new RecommendFragment();
-                    ft.add(R.id.frame_layout, mRecommendFragment);
+                    mBookcaseFragment = new BookcaseFragment();
+                    ft.add(R.id.frame_layout, mBookcaseFragment);
                 }
                 if (mMenu != null) {
                     getMenuInflater().inflate(R.menu.menu_main, mMenu);
                 }
-                curFragment=mRecommendFragment;
+                curFragment= mBookcaseFragment;
                 break;
             case 1:
                 if (mHotBookListFragment != null) {
@@ -350,8 +350,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     }
 
     private void hideAllFragment(FragmentTransaction ft) {
-        if (mRecommendFragment != null) {
-            ft.hide(mRecommendFragment);
+        if (mBookcaseFragment != null) {
+            ft.hide(mBookcaseFragment);
         }
         if (mBookCommentsFragment != null) {
             ft.hide(mBookCommentsFragment);

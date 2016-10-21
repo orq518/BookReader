@@ -1,7 +1,7 @@
 package com.ou.reader.component;
 
 import com.ou.reader.ui.activity.MainActivity;
-import com.ou.reader.ui.fragment.RecommendFragment;
+import com.ou.reader.ui.fragment.BookcaseFragment;
 
 import dagger.Component;
 
@@ -9,5 +9,5 @@ import dagger.Component;
 public interface MainComponent {
     MainActivity inject(MainActivity activity);
 
-    RecommendFragment inject(RecommendFragment fragment);
+    BookcaseFragment inject(BookcaseFragment fragment);
 }
