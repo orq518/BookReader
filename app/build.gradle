@@ -12,28 +12,33 @@ android {
         versionCode 1
         versionName "1.0"
     }
-
+    //签名设置
     signingConfigs {
+        //keystore信息
         release {
-            storeFile file(KEYSTORE_FILE)
-            storePassword KEYSTORE_PWD
-            keyAlias KEY_ALIAS
-            keyPassword KEY_PWD
+            storeFile file('signkey.jks')//签名文件路径
+            storePassword "orq518" //签名密码
+            keyAlias "ou"//签名名称
+            keyPassword "orq518"//签名密码
+        }
+        debug {
+            storeFile file('signkey.jks')//签名文件路径
+            storePassword "orq518" //签名密码
+            keyAlias "ou"//签名名称
+            keyPassword "orq518"//签名密码
         }
     }
-
     buildTypes {
-        debug {
-            signingConfig signingConfigs.release
-        }
-
+        //Release版指定signingConfig的release信息
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.debug
+        }
     }
-
     lintOptions {
         disable 'InvalidPackage'
     }
