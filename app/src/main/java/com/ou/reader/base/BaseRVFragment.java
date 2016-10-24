@@ -2,6 +2,7 @@ package com.ou.reader.base;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -66,7 +67,30 @@ public abstract class BaseRVFragment<T1 extends BaseContract.BasePresenter, T2> 
             }
         }
     }
+    protected void initAdapter(boolean refreshable, boolean loadmoreable,int type) {
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getSupportActivity(),2));
+            mRecyclerView.setItemDecoration(ContextCompat.getColor(activity, R.color.common_divider_narrow), 1, 0, 0);
+            mRecyclerView.setAdapterWithProgress(mAdapter);
+        }
+        if (mAdapter != null) {
+            mAdapter.setOnItemClickListener(this);
+            mAdapter.setError(R.layout.common_error_view).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mAdapter.resumeMore();
 
+                }
+            });
+            if (loadmoreable) {
+                mAdapter.setMore(R.layout.common_more_view, this);
+                mAdapter.setNoMore(R.layout.common_nomore_view);
+            }
+            if (refreshable && mRecyclerView != null) {
+                mRecyclerView.setRefreshListener(this);
+            }
+        }
+    }
     protected void initAdapter(Class<? extends RecyclerArrayAdapter<T2>> clazz, boolean refreshable, boolean loadmoreable) {
         mAdapter = (RecyclerArrayAdapter<T2>) createInstance(clazz);
         initAdapter(refreshable, loadmoreable);

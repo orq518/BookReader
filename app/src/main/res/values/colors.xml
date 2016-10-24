@@ -32,7 +32,7 @@
     <!--通用背景色-->
     <color name="common_gray_bg">#EEEEEE</color>
     <!--通用一级标题的颜色-->
-    <color name="common_h1">#212121</color>
+    <color name="common_h1">#313131</color>
     <!--通用二级标题的颜色-->
     <color name="common_h2">#727272</color>
     <!--通用三级标题的颜色-->

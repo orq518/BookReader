@@ -62,10 +62,10 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
 
         showDialog();
         mRvMaleCategory.setHasFixedSize(true);
-        mRvMaleCategory.setLayoutManager(new GridLayoutManager(mActivity, 3));
+        mRvMaleCategory.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mRvMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
         mRvFeMaleCategory.setHasFixedSize(true);
-        mRvFeMaleCategory.setLayoutManager(new GridLayoutManager(mActivity, 3));
+        mRvFeMaleCategory.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mRvFeMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
         mMaleCategoryListAdapter = new TopCategoryListAdapter(mContext, mMaleCategoryList, new ClickListener(Constant.Gender.MALE));
         mFemaleCategoryListAdapter = new TopCategoryListAdapter(mContext, mFemaleCategoryList, new ClickListener(Constant.Gender.FEMALE));
