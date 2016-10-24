@@ -1,6 +1,5 @@
 package com.ou.reader.ui.fragment;
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,7 @@ import com.ou.reader.ui.activity.TopRankActivity;
 import com.ou.reader.ui.adapter.TopCategoryListAdapter;
 import com.ou.reader.ui.contract.TopCategoryListContract;
 import com.ou.reader.ui.presenter.TopCategoryListPresenter;
-import com.ou.reader.view.SupportGridItemDecoration;
+import com.ou.reader.view.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +61,11 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
 
         showDialog();
         mRvMaleCategory.setHasFixedSize(true);
-        mRvMaleCategory.setLayoutManager(new GridLayoutManager(mActivity, 2));
-        mRvMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
+        mRvMaleCategory.setLayoutManager(new FullyGridLayoutManager(mActivity, 2));
+//        mRvMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
         mRvFeMaleCategory.setHasFixedSize(true);
-        mRvFeMaleCategory.setLayoutManager(new GridLayoutManager(mActivity, 2));
-        mRvFeMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
+        mRvFeMaleCategory.setLayoutManager(new FullyGridLayoutManager(mActivity, 2));
+//        mRvFeMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
         mMaleCategoryListAdapter = new TopCategoryListAdapter(mContext, mMaleCategoryList, new ClickListener(Constant.Gender.MALE));
         mFemaleCategoryListAdapter = new TopCategoryListAdapter(mContext, mFemaleCategoryList, new ClickListener(Constant.Gender.FEMALE));
         mRvMaleCategory.setAdapter(mMaleCategoryListAdapter);

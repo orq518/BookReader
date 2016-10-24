@@ -41,5 +41,8 @@
     <string-array name="my_book_list_item_long_click_choice">
         <item>删除</item>
     </string-array>
-
+    <string-array name="subject_ind">
+        <item>男生</item>
+        <item>女生</item>
+    </string-array>
 </resources>
