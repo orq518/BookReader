@@ -63,10 +63,7 @@ public class TabWidgetLayout extends LinearLayout {
     private void init(final Context context) {
         mContext = context;
         this.setOrientation(LinearLayout.HORIZONTAL);
-
         LayoutInflater inflater = LayoutInflater.from(context);
-
-
         int size = mLabels.length;
         for (int i = 0; i < size; i++) {
             final int index = i;
@@ -81,7 +78,6 @@ public class TabWidgetLayout extends LinearLayout {
             LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1.0f);
             params.gravity = Gravity.CENTER;
             this.addView(view, params);
-
             // CheckedTextView设置索引作为tag，以便后续更改颜色、图片等
             itemName.setTag(index);
             // 将CheckedTextView添加到list中，便于操作
@@ -120,13 +116,12 @@ public class TabWidgetLayout extends LinearLayout {
                 checkedTextView.setChecked(true);
                 checkedIcon.setChecked(true);
                 checkedTextView.setTextColor(mContext.getResources().getColor(R.color.light_blue));//#F7587B
-//                mViewList.get(i).setBackgroundColor(mContext.getResources().getColor(R.color.tab_selected_bg_color));//#F0F1F2
-                mViewList.get(i).setBackgroundColor(mContext.getResources().getColor(R.color.white));//#F0F1F2
+//                mViewList.get(i).setBackgroundColor(mContext.getResources().getColor(R.color.white));//#F0F1F2
             } else {
                 checkedTextView.setChecked(false);
                 checkedIcon.setChecked(false);
                 checkedTextView.setTextColor(mContext.getResources().getColor(R.color.text_gray));//#130C0E
-                mViewList.get(i).setBackgroundColor(mContext.getResources().getColor(R.color.white));//#FAFAFA
+//                mViewList.get(i).setBackgroundColor(mContext.getResources().getColor(R.color.white));//#FAFAFA
             }
         }
     }

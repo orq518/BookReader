@@ -47,9 +47,9 @@ import com.ou.reader.component.AppComponent;
 import com.ou.reader.component.DaggerMainComponent;
 import com.ou.reader.service.DownloadBookService;
 import com.ou.reader.ui.contract.MainContract;
+import com.ou.reader.ui.fragment.BookCaseFragment;
 import com.ou.reader.ui.fragment.BookCommentsFragment;
 import com.ou.reader.ui.fragment.BookStoreFragment;
-import com.ou.reader.ui.fragment.BookcaseFragment;
 import com.ou.reader.ui.fragment.HotBookListFragment;
 import com.ou.reader.ui.presenter.MainActivityPresenter;
 import com.ou.reader.utils.LogUtils;
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public IUiListener loginListener;
     private FragmentManager fm;
 
-    BookcaseFragment mBookcaseFragment;
+    BookCaseFragment mBookCaseFragment;
     HotBookListFragment mHotBookListFragment;
     BookStoreFragment mBookStoreFragment;
 //    CommunityFragment mCommunityFragment;
@@ -297,16 +297,16 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         }
         switch (position) {
             case 0:
-                if (mBookcaseFragment != null) {
-                    ft.show(mBookcaseFragment);
+                if (mBookCaseFragment != null) {
+                    ft.show(mBookCaseFragment);
                 } else {
-                    mBookcaseFragment = new BookcaseFragment();
-                    ft.add(R.id.frame_layout, mBookcaseFragment);
+                    mBookCaseFragment = new BookCaseFragment();
+                    ft.add(R.id.frame_layout, mBookCaseFragment);
                 }
                 if (mMenu != null) {
                     getMenuInflater().inflate(R.menu.menu_main, mMenu);
                 }
-                curFragment= mBookcaseFragment;
+                curFragment= mBookCaseFragment;
                 break;
             case 1:
                 if (mHotBookListFragment != null) {
@@ -350,8 +350,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     }
 
     private void hideAllFragment(FragmentTransaction ft) {
-        if (mBookcaseFragment != null) {
-            ft.hide(mBookcaseFragment);
+        if (mBookCaseFragment != null) {
+            ft.hide(mBookCaseFragment);
         }
         if (mBookCommentsFragment != null) {
             ft.hide(mBookCommentsFragment);

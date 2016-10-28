@@ -19,14 +19,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/red_main_color"
         android:gravity="center"/>
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_above="@id/tab_widget"
-        android:background="@color/listview_divider"
+        android:background="@color/home_tab_divider"
     />
     <FrameLayout
         android:id="@+id/frame_layout"

@@ -65,6 +65,7 @@
     <color name="red_main_color">#ee4634</color>
     <color name="text_gray">#959595</color>
     <color name="listview_divider">#d1d1d1</color>
-    <color name="home_tab_bg">#f7f7f7</color>
+    <color name="home_tab_divider">#d1d1d1</color>
+    <color name="home_tab_bg">#ffffff</color>
 
 </resources>

@@ -303,9 +303,6 @@ public interface BookApiService {
     /**
      * 第三方登陆
      *
-     * @param platform_uid
-     * @param platform_token
-     * @param platform_code  “QQ”
      * @return
      */
     @POST("/user/login")
