@@ -46,7 +46,7 @@ public class LoadingView extends View {
     private final RectF mTempBounds = new RectF();
     //绘制半圆的paint
     private Paint mPaint;
-    private final int DEFAULT_COLOR = 0xFF3B99DF;
+    private final int DEFAULT_COLOR = 0xFF317ef3;
     private boolean mAnimationStarted = false;
     //the ring style
     static final int RING_STYLE_SQUARE = 0;

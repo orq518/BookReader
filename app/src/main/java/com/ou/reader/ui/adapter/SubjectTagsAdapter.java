@@ -29,7 +29,7 @@ public class SubjectTagsAdapter extends EasyRVAdapter<BookListTags.DataBean> {
     protected void onBindData(EasyRVHolder viewHolder, int position, BookListTags.DataBean item) {
         RecyclerView rvTagsItem = viewHolder.getView(R.id.rvTagsItem);
         rvTagsItem.setHasFixedSize(true);
-        rvTagsItem.setLayoutManager(new GridLayoutManager(mContext, 4));
+        rvTagsItem.setLayoutManager(new GridLayoutManager(mContext, 3));
         TagsItemAdapter adapter = new TagsItemAdapter(mContext, item.tags);
         rvTagsItem.setAdapter(adapter);
 

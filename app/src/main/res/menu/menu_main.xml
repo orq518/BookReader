@@ -9,11 +9,11 @@
         android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
         app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/action_login"
-        android:title="@string/menu_main_please_login"
-        android:icon="@drawable/home_menu_0"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/action_login"-->
+        <!--android:title="@string/menu_main_please_login"-->
+        <!--android:icon="@drawable/home_menu_0"-->
+        <!--app:showAsAction="never" />-->
 
     <!--<item-->
         <!--android:id="@+id/action_my_message"-->
@@ -45,11 +45,11 @@
         <!--android:icon="@drawable/home_menu_5"-->
         <!--app:showAsAction="never" />-->
 
-    <!--<item-->
-        <!--android:id="@+id/action_night_mode"-->
-        <!--android:title="@string/menu_main_night_mode"-->
-        <!--android:icon="@drawable/theme_night"-->
-        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/action_night_mode"
+        android:title="@string/menu_main_night_mode"
+        android:icon="@drawable/theme_night"
+        app:showAsAction="never" />
 
     <!--<item-->
         <!--android:id="@+id/action_settings"-->

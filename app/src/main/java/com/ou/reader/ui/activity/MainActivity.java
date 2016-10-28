@@ -30,8 +30,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.menu.MenuBuilder;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +42,7 @@ import com.google.gson.Gson;
 import com.ou.reader.R;
 import com.ou.reader.base.BaseActivity;
 import com.ou.reader.base.BaseFragment;
+import com.ou.reader.base.Constant;
 import com.ou.reader.bean.user.TencentLoginResult;
 import com.ou.reader.component.AppComponent;
 import com.ou.reader.component.DaggerMainComponent;
@@ -53,6 +54,7 @@ import com.ou.reader.ui.fragment.BookStoreFragment;
 import com.ou.reader.ui.fragment.HotBookListFragment;
 import com.ou.reader.ui.presenter.MainActivityPresenter;
 import com.ou.reader.utils.LogUtils;
+import com.ou.reader.utils.SharedPreferencesUtil;
 import com.ou.reader.utils.ToastUtils;
 import com.ou.reader.view.LoginPopupWindow;
 import com.ou.reader.view.TabWidgetLayout;
@@ -171,13 +173,13 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
             case R.id.action_search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
-            case R.id.action_login:
-                if (popupWindow == null) {
-                    popupWindow = new LoginPopupWindow(this);
-                    popupWindow.setLoginTypeListener(this);
-                }
-                popupWindow.showAtLocation(mCommonToolbar, Gravity.CENTER, 0, 0);
-                break;
+//            case R.id.action_login:
+//                if (popupWindow == null) {
+//                    popupWindow = new LoginPopupWindow(this);
+//                    popupWindow.setLoginTypeListener(this);
+//                }
+//                popupWindow.showAtLocation(mCommonToolbar, Gravity.CENTER, 0, 0);
+//                break;
 //            case R.id.action_my_message:
 //                break;
 //            case R.id.action_sync_bookshelf:
@@ -188,16 +190,16 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 //                break;
 //            case R.id.action_feedback:
 //                break;
-//            case R.id.action_night_mode:
-//                if (SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false)) {
-//                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, false);
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                } else {
-//                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, true);
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                }
-//                recreate();
-//                break;
+            case R.id.action_night_mode:
+                if (SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false)) {
+                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, false);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else {
+                    SharedPreferencesUtil.getInstance().putBoolean(Constant.ISNIGHT, true);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                recreate();
+                break;
 //            case R.id.action_settings:
 //                break;
             default:

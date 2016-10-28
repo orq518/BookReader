@@ -26,12 +26,13 @@
                     android:textColor="@color/common_h2"
                     android:textSize="18sp"/>
             </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvMaleCategory"
+            <com.ou.reader.view.MyGridView
+                android:id="@+id/male_books"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:numColumns="2"
+                android:layout_height="wrap_content">
+
+            </com.ou.reader.view.MyGridView>
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp">
@@ -42,11 +43,13 @@
                     android:textColor="@color/common_h2"
                     android:textSize="18sp"/>
             </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvFemaleCategory"
+            <com.ou.reader.view.MyGridView
+                android:id="@+id/female_books"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:numColumns="2"
+                android:layout_height="wrap_content">
+
+            </com.ou.reader.view.MyGridView>
 
         </LinearLayout>
     </com.ou.reader.view.ReboundScrollView>

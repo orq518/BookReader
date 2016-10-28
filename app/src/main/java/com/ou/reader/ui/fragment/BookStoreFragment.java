@@ -1,23 +1,22 @@
 package com.ou.reader.ui.fragment;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.ou.reader.R;
 import com.ou.reader.base.BaseFragment;
 import com.ou.reader.base.Constant;
 import com.ou.reader.bean.CategoryList;
-import com.ou.reader.common.OnRvItemClickListener;
 import com.ou.reader.component.AppComponent;
 import com.ou.reader.component.DaggerFindComponent;
 import com.ou.reader.ui.activity.MainActivity;
 import com.ou.reader.ui.activity.SubCategoryListActivity;
 import com.ou.reader.ui.activity.TopRankActivity;
-import com.ou.reader.ui.adapter.TopCategoryListAdapter;
+import com.ou.reader.ui.adapter.BookStoreAdapter;
 import com.ou.reader.ui.contract.TopCategoryListContract;
 import com.ou.reader.ui.presenter.TopCategoryListPresenter;
-import com.ou.reader.view.FullyGridLayoutManager;
+import com.ou.reader.view.MyGridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +31,20 @@ import butterknife.Bind;
  */
 public class BookStoreFragment extends BaseFragment implements TopCategoryListContract.View  {
 
-    @Bind(R.id.rvMaleCategory)
-    RecyclerView mRvMaleCategory;
-    @Bind(R.id.rvFemaleCategory)
-    RecyclerView mRvFeMaleCategory;
-
+    @Bind(R.id.male_books)
+    MyGridView mMaleGridView;
+    @Bind(R.id.female_books)
+    MyGridView femaleBooksGridView;
     @Inject
     TopCategoryListPresenter mPresenter;
-
-    private TopCategoryListAdapter mMaleCategoryListAdapter;
-    private TopCategoryListAdapter mFemaleCategoryListAdapter;
+    BookStoreAdapter maleAdapter;
+    BookStoreAdapter famaleAdapter;
     private List<CategoryList.MaleBean> mMaleCategoryList = new ArrayList<>();
     private List<CategoryList.MaleBean> mFemaleCategoryList = new ArrayList<>();
 
     MainActivity mActivity;
+    ItemClickListener mMaleItemClickListener;
+    ItemClickListener mFamaleItemClickListener;
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_top_category_list;
@@ -60,19 +59,19 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
     public void configViews() {
 
         showDialog();
-        mRvMaleCategory.setHasFixedSize(true);
-        mRvMaleCategory.setLayoutManager(new FullyGridLayoutManager(mActivity, 2));
-//        mRvMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
-        mRvFeMaleCategory.setHasFixedSize(true);
-        mRvFeMaleCategory.setLayoutManager(new FullyGridLayoutManager(mActivity, 2));
-//        mRvFeMaleCategory.addItemDecoration(new SupportGridItemDecoration(mActivity));
-        mMaleCategoryListAdapter = new TopCategoryListAdapter(mContext, mMaleCategoryList, new ClickListener(Constant.Gender.MALE));
-        mFemaleCategoryListAdapter = new TopCategoryListAdapter(mContext, mFemaleCategoryList, new ClickListener(Constant.Gender.FEMALE));
-        mRvMaleCategory.setAdapter(mMaleCategoryListAdapter);
-        mRvFeMaleCategory.setAdapter(mFemaleCategoryListAdapter);
-
+        mMaleItemClickListener=new ItemClickListener(1);
+        mFamaleItemClickListener=new ItemClickListener(2);
         mPresenter.attachView(this);
         mPresenter.getCategoryList();
+
+        maleAdapter =new BookStoreAdapter(mContext);
+        mMaleGridView.setAdapter(maleAdapter);
+        famaleAdapter =new BookStoreAdapter(mContext);
+        femaleBooksGridView.setAdapter(famaleAdapter);
+
+        mMaleGridView.setOnItemClickListener(mMaleItemClickListener);
+        femaleBooksGridView.setOnItemClickListener(mFamaleItemClickListener);
+
     }
 
     @Override
@@ -118,20 +117,33 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
         mFemaleCategoryList.clear();
         mMaleCategoryList.addAll(data.male);
         mFemaleCategoryList.addAll(data.female);
-        mMaleCategoryListAdapter.notifyDataSetChanged();
-        mFemaleCategoryListAdapter.notifyDataSetChanged();
+        maleAdapter.setData((ArrayList<CategoryList.MaleBean>) mMaleCategoryList);
+        famaleAdapter.setData((ArrayList<CategoryList.MaleBean>) mFemaleCategoryList);
     }
-    class ClickListener implements OnRvItemClickListener<CategoryList.MaleBean> {
 
-        private String gender;
-
-        public ClickListener(@Constant.Gender String gender) {
-            this.gender = gender;
+    class ItemClickListener implements AdapterView.OnItemClickListener {
+        int type;
+        public ItemClickListener( int type){
+            this.type=type;
         }
+//        private String gender;
+//
+//        public ClickListener(@Constant.Gender String gender) {
+//            this.gender = gender;
+//        }
+//
+//        @Override
+//        public void onItemClick(View view, int position, CategoryList.MaleBean data) {
+//            SubCategoryListActivity.startActivity(mActivity, data.name, gender);
+//        }
 
         @Override
-        public void onItemClick(View view, int position, CategoryList.MaleBean data) {
-            SubCategoryListActivity.startActivity(mActivity, data.name, gender);
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (type==1){
+                SubCategoryListActivity.startActivity(mActivity, mMaleCategoryList.get(position).name, Constant.Gender.MALE);
+            }else{
+                SubCategoryListActivity.startActivity(mActivity,mFemaleCategoryList.get(position).name, Constant.Gender.FEMALE);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:xlhRatingBar="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -55,25 +56,49 @@
         android:paddingRight="15dp"
         android:textColor="@color/common_h1"
         android:textSize="16dp" />
-
-    <com.ou.reader.view.BookContentTextView
-        android:id="@+id/tvContent"
+    <com.ou.reader.view.ExpandableTextView
+        android:id="@+id/expand_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="1dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:text=""
-        android:textColor="@color/common_h2"
-        android:textSize="16dp" />
+        expandableTextView:maxCollapsedLines="4">
 
+        <TextView
+            android:id="@id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="sans-serif-light"
+            android:lineSpacingMultiplier="1.1"
+            android:lineSpacingExtra="3dp"
+            android:textSize="14sp"
+            android:textColor="#666666" />
+
+        <ImageButton
+            android:id="@id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_gravity="center|bottom"
+            android:background="@android:color/transparent"/>
+    </com.ou.reader.view.ExpandableTextView>
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        xmlns:tools="http://schemas.android.com/tools"
+                                        app:cardCornerRadius="5dp"
+                                        app:cardPreventCornerOverlap="true"
+                                        app:cardUseCompatPadding="true"
+                                        app:cardElevation="2dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
     <RelativeLayout
         android:id="@+id/rlBookInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="@drawable/shape_common_light_white_bg"
+        android:background="@drawable/touch_bg"
         android:padding="10dp">
 
         <ImageView
@@ -138,7 +163,7 @@
 
         </RelativeLayout>
     </RelativeLayout>
-
+    </android.support.v7.widget.CardView>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -129,10 +129,10 @@ public class TagGroup extends ViewGroup {
     public TagGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         default_border_stroke_width = dp2px(0.5f);
-        default_text_size = sp2px(13.0f);
+        default_text_size = sp2px(11.0f);
         default_horizontal_spacing = dp2px(8.0f);
-        default_vertical_spacing = dp2px(4.0f);
-        default_horizontal_padding = dp2px(12.0f);
+        default_vertical_spacing = dp2px(2.0f);
+        default_horizontal_padding = dp2px(6.0f);
         default_vertical_padding = dp2px(3.0f);
 
         // Load styled attributes.
@@ -152,11 +152,16 @@ public class TagGroup extends ViewGroup {
             checkedBackgroundColor = a.getColor(R.styleable.TagGroup_atg_checkedBackgroundColor, default_checked_background_color);
             pressedBackgroundColor = a.getColor(R.styleable.TagGroup_atg_pressedBackgroundColor, default_pressed_background_color);
             borderStrokeWidth = a.getDimension(R.styleable.TagGroup_atg_borderStrokeWidth, default_border_stroke_width);
-            textSize = a.getDimension(R.styleable.TagGroup_atg_textSize, default_text_size);
-            horizontalSpacing = (int) a.getDimension(R.styleable.TagGroup_atg_horizontalSpacing, default_horizontal_spacing);
-            verticalSpacing = (int) a.getDimension(R.styleable.TagGroup_atg_verticalSpacing, default_vertical_spacing);
-            horizontalPadding = (int) a.getDimension(R.styleable.TagGroup_atg_horizontalPadding, default_horizontal_padding);
-            verticalPadding = (int) a.getDimension(R.styleable.TagGroup_atg_verticalPadding, default_vertical_padding);
+//            textSize = a.getDimension(R.styleable.TagGroup_atg_textSize, default_text_size);
+            textSize = default_text_size;
+//            horizontalSpacing = (int) a.getDimension(R.styleable.TagGroup_atg_horizontalSpacing, default_horizontal_spacing);
+//            verticalSpacing = (int) a.getDimension(R.styleable.TagGroup_atg_verticalSpacing, default_vertical_spacing);
+//            horizontalPadding = (int) a.getDimension(R.styleable.TagGroup_atg_horizontalPadding, default_horizontal_padding);
+//            verticalPadding = (int) a.getDimension(R.styleable.TagGroup_atg_verticalPadding, default_vertical_padding);
+            horizontalSpacing = (int) default_horizontal_spacing;
+            verticalSpacing = (int)default_vertical_spacing;
+            horizontalPadding = (int)default_horizontal_padding;
+            verticalPadding = (int) default_vertical_padding;
         } finally {
             a.recycle();
         }
@@ -817,6 +822,7 @@ public class TagGroup extends ViewGroup {
          *
          * @param checked true is checked, false otherwise
          */
+        @SuppressWarnings("ResourceType")
         public void setChecked(boolean checked) {
             isChecked = checked;
             // Make the checked mark drawing region.

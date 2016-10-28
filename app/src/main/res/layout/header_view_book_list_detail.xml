@@ -14,7 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:padding="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:textColor="@color/common_h1"
         android:textSize="18sp"
         tools:text="追书包月精选书单之科幻第一期" />
@@ -23,7 +26,7 @@
         android:id="@+id/tvBookListDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textColor="@color/common_h2"
@@ -33,7 +36,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <ImageView
             android:id="@+id/ivAuthorAvatar"

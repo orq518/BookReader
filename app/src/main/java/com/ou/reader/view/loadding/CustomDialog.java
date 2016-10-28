@@ -21,7 +21,7 @@ public class CustomDialog extends Dialog {
 
     public static CustomDialog instance(Activity activity) {
         LoadingView v = (LoadingView) View.inflate(activity, R.layout.common_progress_view, null);
-        v.setColor(ContextCompat.getColor(activity, R.color.reader_menu_bg_color));
+        v.setColor(ContextCompat.getColor(activity, R.color.light_blue));
         CustomDialog dialog = new CustomDialog(activity, R.style.loading_dialog);
         dialog.setContentView(v,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

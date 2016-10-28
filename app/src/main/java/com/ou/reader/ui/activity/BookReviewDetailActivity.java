@@ -25,7 +25,7 @@ import com.ou.reader.ui.contract.BookReviewDetailContract;
 import com.ou.reader.ui.easyadapter.CommentListAdapter;
 import com.ou.reader.ui.presenter.BookReviewDetailPresenter;
 import com.ou.reader.utils.FormatUtils;
-import com.ou.reader.view.BookContentTextView;
+import com.ou.reader.view.ExpandableTextView;
 import com.ou.reader.view.SupportDividerItemDecoration;
 import com.ou.reader.view.XLHRatingBar;
 import com.ou.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
@@ -81,8 +81,6 @@ public class BookReviewDetailActivity extends BaseRVActivity<CommentList.Comment
         TextView tvTime;
         @Bind(R.id.tvTitle)
         TextView tvTitle;
-        @Bind(R.id.tvContent)
-        BookContentTextView tvContent;
         @Bind(R.id.rlBookInfo)
         RelativeLayout rlBookInfo;
         @Bind(R.id.ivBookCover)
@@ -101,6 +99,8 @@ public class BookReviewDetailActivity extends BaseRVActivity<CommentList.Comment
         TextView tvCommentCount;
         @Bind(R.id.rating)
         XLHRatingBar ratingBar;
+        @Bind(R.id.expand_text_view)
+        ExpandableTextView expand_text_view;
 
         public HeaderViewHolder(View view) {
             ButterKnife.bind(this, view);   //view绑定
@@ -165,7 +165,9 @@ public class BookReviewDetailActivity extends BaseRVActivity<CommentList.Comment
         headerViewHolder.tvBookAuthor.setText(data.review.author.nickname);
         headerViewHolder.tvTime.setText(FormatUtils.formatDate(data.review.created));
         headerViewHolder.tvTitle.setText(data.review.title);
-        headerViewHolder.tvContent.setText(data.review.content);
+        headerViewHolder.expand_text_view.setText(data.review.content);
+
+
 
         Glide.with(mContext).load(Constant.IMG_BASE_URL + data.review.book.cover)
                 .placeholder(R.drawable.cover_default)

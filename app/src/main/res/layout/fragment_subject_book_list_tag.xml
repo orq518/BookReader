@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:background="@color/common_gray_bg"
+            android:background="@color/white"
             android:layout_marginBottom="10dp"
             android:visibility="gone">
 
@@ -49,7 +49,7 @@
                 android:id="@+id/rvTags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/common_gray_bg"
+                android:background="@color/white"
                 android:paddingTop="10dp" />
         </com.ou.reader.view.ReboundScrollView>
     </FrameLayout>

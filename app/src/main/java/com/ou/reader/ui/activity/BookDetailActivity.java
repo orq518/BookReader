@@ -33,6 +33,7 @@ import com.ou.reader.ui.presenter.BookDetailPresenter;
 import com.ou.reader.utils.FormatUtils;
 import com.ou.reader.utils.ToastUtils;
 import com.ou.reader.view.DrawableCenterButton;
+import com.ou.reader.view.ExpandableTextView;
 import com.ou.reader.view.TagColor;
 import com.ou.reader.view.TagGroup;
 import com.yuyh.easyadapter.glide.GlideRoundTransform;
@@ -53,13 +54,6 @@ import butterknife.OnClick;
  * Created by lfh on 2016/8/6.
  */
 public class BookDetailActivity extends BaseActivity implements BookDetailContract.View, OnRvItemClickListener<Object> {
-
-    public static String INTENT_BOOK_ID = "bookId";
-
-    public static void startActivity(Context context, String bookId) {
-        context.startActivity(new Intent(context, BookDetailActivity.class)
-                .putExtra(INTENT_BOOK_ID, bookId));
-    }
 
     @Bind(R.id.ivBookCover)
     ImageView mIvBookCover;
@@ -85,8 +79,6 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     TextView mTvSerializeWordCount;
     @Bind(R.id.tag_group)
     TagGroup mTagGroup;
-    @Bind(R.id.tvlongIntro)
-    TextView mTvlongIntro;
     @Bind(R.id.tvMoreReview)
     TextView mTvMoreReview;
     @Bind(R.id.rvHotReview)
@@ -103,9 +95,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @Bind(R.id.rvRecommendBoookList)
     RecyclerView mRvRecommendBoookList;
 
+    @Bind(R.id.expand_text_view)
+    ExpandableTextView mExpandableTextView;
+
     @Inject
     BookDetailPresenter mPresenter;
 
+    public static String INTENT_BOOK_ID = "bookId";
     private List<String> tagList = new ArrayList<>();
     private int times = 0;
 
@@ -118,6 +114,12 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     private boolean collapseLongIntro = true;
     private Recommend.RecommendBooks recommendBooks;
     private boolean isJoinedCollections = false;
+    public static void startActivity(Context context, String bookId) {
+        context.startActivity(new Intent(context, BookDetailActivity.class)
+                .putExtra(INTENT_BOOK_ID, bookId));
+    }
+
+
 
     @Override
     public int getLayoutId() {
@@ -191,7 +193,9 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         times = 0;
         showHotWord();
 
-        mTvlongIntro.setText(data.longIntro);
+        mExpandableTextView.setText(data.longIntro);
+
+
         mTvCommunity.setText(String.format(getString(R.string.book_detail_community), data.title));
         mTvPostCount.setText(String.format(getString(R.string.book_detail_post_count), data
                 .postCount));
@@ -338,16 +342,16 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         SearchByAuthorActivity.startActivity(this, author);
     }
 
-    @OnClick(R.id.tvlongIntro)
-    public void collapseLongIntro() {
-        if (collapseLongIntro) {
-            mTvlongIntro.setMaxLines(20);
-            collapseLongIntro = false;
-        } else {
-            mTvlongIntro.setMaxLines(4);
-            collapseLongIntro = true;
-        }
-    }
+//    @OnClick(R.id.tvlongIntro)
+//    public void collapseLongIntro() {
+//        if (collapseLongIntro) {
+//            mTvlongIntro.setMaxLines(20);
+//            collapseLongIntro = false;
+//        } else {
+//            mTvlongIntro.setMaxLines(4);
+//            collapseLongIntro = true;
+//        }
+//    }
 
     @OnClick(R.id.tvMoreReview)
     public void onClickMoreReview() {
