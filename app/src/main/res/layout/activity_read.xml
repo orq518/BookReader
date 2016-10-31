@@ -4,7 +4,7 @@
     android:id="@+id/rlBookReadRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/theme_leather_bg"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <FrameLayout
@@ -71,7 +71,7 @@
             android:gravity="center"
             android:text="@string/book_read_community"
             android:textSize="@dimen/book_read_top_text"
-            android:textColor="@color/book_read_top_text" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvBookReadIntroduce"
@@ -81,7 +81,7 @@
             android:gravity="center"
             android:text="@string/book_read_introduce"
             android:textSize="@dimen/book_read_top_text"
-            android:textColor="@color/book_read_top_text" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -96,7 +96,7 @@
         android:paddingTop="10dp"
         android:singleLine="true"
         android:text="@string/book_read_download_progress"
-        android:textColor="@color/book_read_bottom_text"
+        android:textColor="@color/white"
         android:visibility="gone" />
 
     <include layout="@layout/layout_read_aa_set" />
@@ -121,7 +121,7 @@
             android:gravity="center"
             android:text="@string/book_read_mode_day"
             android:textSize="@dimen/book_read_bottom_text"
-            android:textColor="@color/book_read_bottom_text" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvBookReadSettings"
@@ -132,7 +132,7 @@
             android:gravity="center"
             android:text="@string/book_read_settings"
             android:textSize="@dimen/book_read_bottom_text"
-            android:textColor="@color/book_read_bottom_text" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvBookReadDownload"
@@ -143,7 +143,7 @@
             android:gravity="center"
             android:text="@string/book_read_download"
             android:textSize="@dimen/book_read_bottom_text"
-            android:textColor="@color/book_read_bottom_text" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvBookReadToc"
@@ -154,7 +154,7 @@
             android:gravity="center"
             android:text="@string/book_read_toc"
             android:textSize="@dimen/book_read_bottom_text"
-            android:textColor="@color/book_read_bottom_text" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

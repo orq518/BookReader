@@ -61,7 +61,7 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:text="Aa-"
-            android:textColor="@color/common_h2"
+            android:textColor="@color/white"
             android:textSize="14dp" />
 
         <SeekBar
@@ -84,7 +84,7 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:text="Aa+"
-            android:textColor="@color/common_h2"
+            android:textColor="@color/white"
             android:textSize="14dp" />
     </LinearLayout>
 
@@ -101,7 +101,7 @@
             android:layout_marginLeft="20dp"
             android:button="@drawable/volume_checkbox_selector"
             android:text="音量键翻页"
-            android:textColor="@color/common_h3"
+            android:textColor="@color/white"
             android:textSize="14dp" />
 
         <CheckBox
@@ -111,7 +111,7 @@
             android:layout_marginLeft="20dp"
             android:button="@drawable/volume_checkbox_selector"
             android:text="自动调整亮度"
-            android:textColor="@color/common_h3"
+            android:textColor="@color/white"
             android:textSize="14dp" />
 
     </LinearLayout>

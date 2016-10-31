@@ -103,7 +103,7 @@ public class TopRankActivity extends BaseActivity implements TopRankContract.Vie
             }
         }
         if (collapse.size() > 0) {
-            maleGroups.add(new RankingList.MaleBean("别人家的排行榜"));
+            maleGroups.add(new RankingList.MaleBean("其他的排行榜"));
             maleChilds.add(collapse);
         }
         maleAdapter.notifyDataSetChanged();
@@ -121,7 +121,7 @@ public class TopRankActivity extends BaseActivity implements TopRankContract.Vie
             }
         }
         if (collapse.size() > 0) {
-            femaleGroups.add(new RankingList.MaleBean("别人家的排行榜"));
+            femaleGroups.add(new RankingList.MaleBean("其他的排行榜"));
             femaleChilds.add(collapse);
         }
         femaleAdapter.notifyDataSetChanged();
@@ -141,7 +141,12 @@ public class TopRankActivity extends BaseActivity implements TopRankContract.Vie
 
         @Override
         public void onItemClick(View view, int position, RankingList.MaleBean data) {
-            SubRankActivity.startActivity(mContext, data._id, data.monthRank, data.totalRank, data.title);
+            if (data.monthRank == null) {
+                SubRankActivity.startActivity_single(mContext, data._id, data.title);
+            } else {
+                SubRankActivity.startActivity(mContext, data._id, data.monthRank, data.totalRank, data.title);
+            }
+
         }
     }
 }

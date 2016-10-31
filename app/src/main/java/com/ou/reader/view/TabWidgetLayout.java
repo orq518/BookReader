@@ -30,7 +30,7 @@ public class TabWidgetLayout extends LinearLayout {
     private List<View> mViewList = new ArrayList<View>();
 
     // 底部菜单的文字数组
-    private String[] mLabels= new String[]{"书架", "推荐", "书库", "书评"};
+    private String[] mLabels= new String[]{"书架","书库","书单", "书评"};
     Context mContext;
     int height;
     public int TOUCH = 0, ONRESUME = 1;

@@ -55,13 +55,10 @@ import com.ou.reader.utils.LogUtils;
 import com.ou.reader.utils.ScreenUtils;
 import com.ou.reader.utils.SharedPreferencesUtil;
 import com.ou.reader.utils.StringUtils;
-import com.ou.reader.utils.TTSPlayerUtils;
 import com.ou.reader.utils.ToastUtils;
+import com.ou.reader.view.ReadView.BaseReadView;
 import com.ou.reader.view.ReadView.OnReadStateChangeListener;
-import com.ou.reader.view.ReadView.PageWidget;
-import com.sinovoice.hcicloudsdk.android.tts.player.TTSPlayer;
-import com.sinovoice.hcicloudsdk.common.tts.TtsConfig;
-import com.sinovoice.hcicloudsdk.player.TTSCommonPlayer;
+import com.ou.reader.view.ReadView.OverlappedWidget;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -151,13 +148,14 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
      **/
     private boolean startRead = false;
 
-    /**
-     * 朗读 播放器
-     */
-    private TTSPlayer mTtsPlayer;
-    private TtsConfig ttsConfig;
+//    /**
+//     * 朗读 播放器
+//     */
+//    private TTSPlayer mTtsPlayer;
+//    private TtsConfig ttsConfig;
 
-    private PageWidget mPageWidget;
+//    private PageWidget mPageWidget;
+    private BaseReadView mPageWidget;
     private int curTheme = -1;
     private List<ReadTheme> themes;
     private ReadThemeAdapter gvAdapter;
@@ -206,8 +204,8 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
         mTvBookReadTocTitle.setText(recommendBooks.title);
 
-        mTtsPlayer = TTSPlayerUtils.getTTSPlayer();
-        ttsConfig = TTSPlayerUtils.getTtsConfig();
+//        mTtsPlayer = TTSPlayerUtils.getTTSPlayer();
+//        ttsConfig = TTSPlayerUtils.getTtsConfig();
 
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         intentFilter.addAction(Intent.ACTION_TIME_TICK);
@@ -293,7 +291,8 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     }
 
     private void initPagerWidget() {
-        mPageWidget = new PageWidget(this, recommendBooks._id, mChapterList, new ReadListener());// 页面
+//        mPageWidget = new PageWidget(this, recommendBooks._id, mChapterList, new ReadListener());// 页面
+        mPageWidget = new OverlappedWidget(this, recommendBooks._id, mChapterList, new ReadListener());
         registerReceiver(receiver, intentFilter);
         if (SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false)) {
             mPageWidget.setTextColor(ContextCompat.getColor(this, R.color.chapter_content_night),
@@ -660,8 +659,8 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mTtsPlayer.getPlayerState() == TTSCommonPlayer.PLAYER_STATE_PLAYING)
-            mTtsPlayer.stop();
+//        if (mTtsPlayer.getPlayerState() == TTSCommonPlayer.PLAYER_STATE_PLAYING)
+//            mTtsPlayer.stop();
         EventBus.getDefault().unregister(this);
         try {
             unregisterReceiver(receiver);

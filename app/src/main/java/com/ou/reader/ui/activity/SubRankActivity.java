@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.ou.reader.R;
 import com.ou.reader.base.BaseActivity;
@@ -37,7 +39,11 @@ public class SubRankActivity extends BaseActivity {
                 .putExtra(INTENT_ALL, all)
                 .putExtra(INTENT_TITLE, title));
     }
-
+    public static void startActivity_single(Context context, String week, String title) {
+        context.startActivity(new Intent(context, SubRankActivity.class)
+                .putExtra(INTENT_WEEK, week)
+                .putExtra(INTENT_TITLE, title));
+    }
     private String week;
     private String month;
     private String all;
@@ -79,12 +85,22 @@ public class SubRankActivity extends BaseActivity {
 
     @Override
     public void initDatas() {
-        mDatas = Arrays.asList(getResources().getStringArray(R.array.sub_rank_tabs));
+        if(TextUtils.isEmpty(month)){
+            mIndicator.setVisibility(View.GONE);
+        }else{
+            mDatas = Arrays.asList(getResources().getStringArray(R.array.sub_rank_tabs));
+            mIndicator.setVisibility(View.VISIBLE);
+        }
 
         mTabContents = new ArrayList<>();
         mTabContents.add(SubRankFragment.newInstance(week));
-        mTabContents.add(SubRankFragment.newInstance(month));
-        mTabContents.add(SubRankFragment.newInstance(all));
+        if(!TextUtils.isEmpty(month)){
+            mTabContents.add(SubRankFragment.newInstance(month));
+        }
+        if(!TextUtils.isEmpty(month)){
+            mTabContents.add(SubRankFragment.newInstance(all));
+        }
+
 
         mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -103,7 +119,12 @@ public class SubRankActivity extends BaseActivity {
     public void configViews() {
         mIndicator.setTabItemTitles(mDatas);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setOffscreenPageLimit(3);
+        if (mTabContents.size()>2){
+            mViewPager.setOffscreenPageLimit(3);
+        }else{
+            mViewPager.setOffscreenPageLimit(0);
+        }
+
         mIndicator.setViewPager(mViewPager, 0);
     }
 }

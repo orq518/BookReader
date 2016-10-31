@@ -131,7 +131,7 @@ public class TagGroup extends ViewGroup {
         default_border_stroke_width = dp2px(0.5f);
         default_text_size = sp2px(11.0f);
         default_horizontal_spacing = dp2px(8.0f);
-        default_vertical_spacing = dp2px(2.0f);
+        default_vertical_spacing = dp2px(5.0f);
         default_horizontal_padding = dp2px(6.0f);
         default_vertical_padding = dp2px(3.0f);
 

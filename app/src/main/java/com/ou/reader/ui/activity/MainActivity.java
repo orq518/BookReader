@@ -89,8 +89,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     private FragmentManager fm;
 
     BookCaseFragment mBookCaseFragment;
-    HotBookListFragment mHotBookListFragment;
     BookStoreFragment mBookStoreFragment;
+    HotBookListFragment mHotBookListFragment;
 //    CommunityFragment mCommunityFragment;
     BookCommentsFragment mBookCommentsFragment;
     private TabWidgetLayout mTabWidget;
@@ -311,18 +311,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                 curFragment= mBookCaseFragment;
                 break;
             case 1:
-                if (mHotBookListFragment != null) {
-                    ft.show(mHotBookListFragment);
-                } else {
-                    mHotBookListFragment = new HotBookListFragment();
-                    ft.add(R.id.frame_layout, mHotBookListFragment);
-                }
-                if (mMenu != null) {
-                    getMenuInflater().inflate(R.menu.menu_subject_fragment, mMenu);
-                }
-                curFragment=mHotBookListFragment;
-                break;
-            case 2:
                 if (mBookStoreFragment != null) {
                     ft.show(mBookStoreFragment);
                 } else {
@@ -333,6 +321,18 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
                     getMenuInflater().inflate(R.menu.menu_ranking, mMenu);
                 }
                 curFragment=mBookStoreFragment;
+                break;
+            case 2:
+                if (mHotBookListFragment != null) {
+                    ft.show(mHotBookListFragment);
+                } else {
+                    mHotBookListFragment = new HotBookListFragment();
+                    ft.add(R.id.frame_layout, mHotBookListFragment);
+                }
+                if (mMenu != null) {
+                    getMenuInflater().inflate(R.menu.menu_subject_fragment, mMenu);
+                }
+                curFragment=mHotBookListFragment;
                 break;
 
             case 3:

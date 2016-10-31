@@ -81,7 +81,7 @@ public class BookCaseFragment extends BaseRVFragment<RecommendPresenter, Recomme
                 headerView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((MainActivity) activity).setCurrentItem(2);
+                        ((MainActivity) activity).setCurrentItem(1);
                     }
                 });
             }

@@ -192,7 +192,7 @@ public class SelectionLayout extends LinearLayout {
             public void convert(EasyLVHolder holder, int position, String s) {
                 holder.setText(R.id.tvSelTitleItem, s);
                 if (selPosition == position) {
-                    holder.setTextColor(R.id.tvSelTitleItem, ContextCompat.getColor(mContext, R.color.light_pink));
+                    holder.setTextColor(R.id.tvSelTitleItem, ContextCompat.getColor(mContext, R.color.light_blue));
                 } else {
                     holder.setTextColor(R.id.tvSelTitleItem, ContextCompat.getColor(mContext, R.color.light_black));
                 }
