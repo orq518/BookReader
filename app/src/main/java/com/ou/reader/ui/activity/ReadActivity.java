@@ -42,6 +42,7 @@ import com.ou.reader.bean.support.RefreshCollectionIconEvent;
 import com.ou.reader.bean.support.RefreshCollectionListEvent;
 import com.ou.reader.component.AppComponent;
 import com.ou.reader.component.DaggerBookComponent;
+import com.ou.reader.manager.CacheManager;
 import com.ou.reader.manager.CollectionsManager;
 import com.ou.reader.manager.SettingManager;
 import com.ou.reader.manager.ThemeManager;
@@ -50,11 +51,9 @@ import com.ou.reader.ui.adapter.TocListAdapter;
 import com.ou.reader.ui.contract.BookReadContract;
 import com.ou.reader.ui.easyadapter.ReadThemeAdapter;
 import com.ou.reader.ui.presenter.BookReadPresenter;
-import com.ou.reader.utils.FileUtils;
 import com.ou.reader.utils.LogUtils;
 import com.ou.reader.utils.ScreenUtils;
 import com.ou.reader.utils.SharedPreferencesUtil;
-import com.ou.reader.utils.StringUtils;
 import com.ou.reader.utils.ToastUtils;
 import com.ou.reader.view.ReadView.BaseReadView;
 import com.ou.reader.view.ReadView.OnReadStateChangeListener;
@@ -64,16 +63,18 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Created by lfh on 2016/9/18.
@@ -177,9 +178,9 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
     @Override
     public int getLayoutId() {
-        statusBarColor = -1;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        statusBarColor = ContextCompat.getColor(this, R.color.reader_menu_bg_color);
         return R.layout.activity_read;
     }
 
@@ -209,10 +210,22 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
         intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
         intentFilter.addAction(Intent.ACTION_TIME_TICK);
+        CollectionsManager.getInstance().setRecentReadingTime(recommendBooks._id);
+
+        Observable.timer(1000, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        //延迟1秒刷新书架
+                        EventBus.getDefault().post(new RefreshCollectionListEvent());
+                    }
+                });
+
     }
 
     @Override
     public void configViews() {
+
         initTocList();
 
         initAASet();
@@ -306,7 +319,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
      * 读取currentChapter章节。章节文件存在则直接阅读，不存在则请求
      */
     public void readCurrentChapter() {
-        if (getBookFile(currentChapter).length() > 50) {
+        if (CacheManager.getInstance().getChapterFile(recommendBooks._id, currentChapter) != null) {
             showChapterRead(null, currentChapter);
         } else {
             mPresenter.getChapterRead(mChapterList.get(currentChapter - 1).link, currentChapter);
@@ -321,15 +334,10 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
         readCurrentChapter();
     }
 
-    public File getBookFile(int chapter) { // 获取章节对应文件
-        return FileUtils.getChapterFile(recommendBooks._id, chapter);
-    }
-
     @Override
     public synchronized void showChapterRead(ChapterRead.Chapter data, int chapter) { // 加载章节内容
         if (data != null) {
-            File file = getBookFile(chapter);
-            FileUtils.writeFile(file.getAbsolutePath(), StringUtils.formatContent(data.body), false);
+            CacheManager.getInstance().saveChapterFile(recommendBooks._id, chapter, data);
         }
 
         if (!startRead) {
@@ -364,23 +372,26 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
     @OnClick(R.id.tvBookReadReading)
     public void readBook() {
-        ToastUtils.showToast("正在拼命开发中...");
+        gone(rlReadAaSet);
     }
 
     @OnClick(R.id.tvBookReadCommunity)
     public void onClickCommunity() {
+        gone(rlReadAaSet);
         BookDetailCommunityActivity.startActivity(this, recommendBooks._id, mTvBookReadTocTitle.getText().toString(), 0);
     }
 
     @OnClick(R.id.tvBookReadIntroduce)
     public void onClickIntroduce() {
+        gone(rlReadAaSet);
         BookDetailActivity.startActivity(mContext, recommendBooks._id);
     }
 
     @OnClick(R.id.tvBookReadMode)
     public void onClickChangeMode() { // 日/夜间模式切换
-        boolean isNight = !SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false);
+        gone(rlReadAaSet);
 
+        boolean isNight = !SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false);
         changedMode(isNight, -1);
     }
 
@@ -421,6 +432,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
     @OnClick(R.id.tvBookReadDownload)
     public void downloadBook() {
+        gone(rlReadAaSet);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("缓存多少章？")
                 .setItems(new String[]{"后面五十章", "后面全部", "全部"}, new DialogInterface.OnClickListener() {
@@ -446,6 +458,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
     @OnClick(R.id.tvBookReadToc)
     public void onClickToc() {
+        gone(rlReadAaSet);
         if (!mTocListPopupWindow.isShowing()) {
             visible(mTvBookReadTocTitle);
             gone(mTvBookReadReading, mTvBookReadCommunity, mTvBookReadChangeSource);
@@ -500,10 +513,10 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showDownProgress(DownloadProgress progress) {
         if (recommendBooks._id.equals(progress.bookId)) {
-            LogUtils.e(progress.bookId + " " + progress.progress + "/" + mChapterList.size());
             if (isVisible(mLlBookReadBottom)) { // 如果工具栏显示，则进度条也显示
                 visible(mTvDownloadProgress);
-                mTvDownloadProgress.setText(String.format(getString(R.string.book_read_download_progress), mChapterList.get(progress.progress - 1).title, progress.progress, mChapterList.size()));
+                // 如果之前缓存过，就给提示
+                mTvDownloadProgress.setText(progress.message);
             } else {
                 gone(mTvDownloadProgress);
             }
@@ -548,10 +561,12 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
 
     private void hideReadBar() {
         gone(mTvDownloadProgress, mLlBookReadBottom, mLlBookReadTop, rlReadAaSet);
+        hideStatusBar();
     }
 
-    private void showReadBar() { // 显示工具栏
+    private synchronized void showReadBar() { // 显示工具栏
         visible(mLlBookReadBottom, mLlBookReadTop);
+        showStatusBar();
     }
 
     private void toggleReadBar() { // 切换工具栏 隐藏/显示 状态
@@ -609,7 +624,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mTocListPopupWindow.isShowing()) {
+            if (mTocListPopupWindow != null && mTocListPopupWindow.isShowing()) {
                 mTocListPopupWindow.dismiss();
                 gone(mTvBookReadTocTitle);
                 visible(mTvBookReadReading, mTvBookReadCommunity, mTvBookReadChangeSource);
@@ -661,6 +676,8 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
         super.onDestroy();
 //        if (mTtsPlayer.getPlayerState() == TTSCommonPlayer.PLAYER_STATE_PLAYING)
 //            mTtsPlayer.stop();
+        EventBus.getDefault().post(new RefreshCollectionIconEvent());
+        EventBus.getDefault().post(new RefreshCollectionListEvent());
         EventBus.getDefault().unregister(this);
         try {
             unregisterReceiver(receiver);
@@ -682,7 +699,8 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
             mTocListAdapter.setCurrentChapter(currentChapter);
             // 加载前一节 与 后三节
             for (int i = chapter - 1; i <= chapter + 3 && i <= mChapterList.size(); i++) {
-                if (i > 0 && i != chapter && getBookFile(i).length() < 50) {
+                if (i > 0 && i != chapter
+                        && CacheManager.getInstance().getChapterFile(recommendBooks._id, i) == null) {
                     mPresenter.getChapterRead(mChapterList.get(i - 1).link, i);
                 }
             }
@@ -697,7 +715,7 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
         public void onLoadChapterFailure(int chapter) {
             LogUtils.i("onLoadChapterFailure:" + chapter);
             startRead = false;
-            if (getBookFile(chapter).length() < 50)
+            if (CacheManager.getInstance().getChapterFile(recommendBooks._id, chapter) == null)
                 mPresenter.getChapterRead(mChapterList.get(chapter - 1).link, chapter);
         }
 

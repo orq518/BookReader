@@ -11,7 +11,7 @@
     <item
         android:id="@+id/menu_all_comment"
         android:orderInCategory="80"
-        android:title="综合讨论"
+        android:title="精彩讨论"
         app:showAsAction="always" />
 
 </menu>

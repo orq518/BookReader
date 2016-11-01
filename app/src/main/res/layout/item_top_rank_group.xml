@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    app:cardBackgroundColor="#80cbc4"
-                                    app:cardCornerRadius="5dp"
-                                    app:cardPreventCornerOverlap="true"
-                                    app:cardUseCompatPadding="true"
-                                    app:cardElevation="2dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-<RelativeLayout
+<!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+                                    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                                    <!--app:cardBackgroundColor="#80cbc4"-->
+                                    <!--app:cardCornerRadius="5dp"-->
+                                    <!--app:cardPreventCornerOverlap="true"-->
+                                    <!--app:cardUseCompatPadding="true"-->
+                                    <!--app:cardElevation="2dp"-->
+                                    <!--android:layout_width="match_parent"-->
+                                    <!--android:layout_height="wrap_content">-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp">
+    android:background="@drawable/touch_bg"
+    android:padding="13dp">
 
     <ImageView
         android:id="@+id/ivRankCover"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true" />
 
     <TextView
@@ -24,20 +25,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="14dp"
         android:textSize="16sp"
-        android:textColor="@color/white"
+        android:textColor="@color/common_h1"
         android:layout_toRightOf="@+id/ivRankCover"
         android:text="xxxx" />
 
     <ImageView
         android:id="@+id/ivRankArrow"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
         android:src="@drawable/rank_arrow_down" />
 
 </RelativeLayout>
-</android.support.v7.widget.CardView>
+<!--</android.support.v7.widget.CardView>-->

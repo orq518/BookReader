@@ -24,7 +24,7 @@ import com.ou.reader.ui.contract.BookDiscussionDetailContract;
 import com.ou.reader.ui.easyadapter.CommentListAdapter;
 import com.ou.reader.ui.presenter.BookDiscussionDetailPresenter;
 import com.ou.reader.utils.FormatUtils;
-import com.ou.reader.view.BookContentTextView;
+import com.ou.reader.view.ExpandableTextView;
 import com.ou.reader.view.SupportDividerItemDecoration;
 import com.ou.reader.view.recyclerview.adapter.RecyclerArrayAdapter;
 import com.yuyh.easyadapter.glide.GlideCircleTransform;
@@ -78,14 +78,14 @@ public class BookDiscussionDetailActivity extends BaseRVActivity<CommentList.Com
         TextView tvTime;
         @Bind(R.id.tvTitle)
         TextView tvTitle;
-        @Bind(R.id.tvContent)
-        BookContentTextView tvContent;
         @Bind(R.id.tvBestComments)
         TextView tvBestComments;
         @Bind(R.id.rvBestComments)
         RecyclerView rvBestComments;
         @Bind(R.id.tvCommentCount)
         TextView tvCommentCount;
+        @Bind(R.id.expand_text_view)
+        ExpandableTextView expand_text_view;
 
         public HeaderViewHolder(View view) {
             ButterKnife.bind(this, view);   //view绑定
@@ -148,9 +148,9 @@ public class BookDiscussionDetailActivity extends BaseRVActivity<CommentList.Com
                 .into(headerViewHolder.ivAvatar);
 
         headerViewHolder.tvNickName.setText(disscussion.post.author.nickname);
-        headerViewHolder.tvTime.setText(FormatUtils.formatDate(disscussion.post.created));
+        headerViewHolder.tvTime.setText(FormatUtils.getDescriptionTimeFromDateString(disscussion.post.created));
         headerViewHolder.tvTitle.setText(disscussion.post.title);
-        headerViewHolder.tvContent.setText(disscussion.post.content);
+        headerViewHolder.expand_text_view.setText(disscussion.post.content);
         headerViewHolder.tvCommentCount.setText(String.format(mContext.getString(R.string.comment_comment_count), disscussion.post.commentCount));
     }
 

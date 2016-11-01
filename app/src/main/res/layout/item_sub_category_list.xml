@@ -29,7 +29,7 @@
             android:singleLine="true"
             android:text="宦官哈哈"
             android:textColor="@color/common_h1"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tvSubCateAuthor"
@@ -38,6 +38,7 @@
             android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textSize="13sp"
             android:text="xxxxxxxxxxxxxxxx"
             android:textColor="@color/common_h2" />
 
@@ -48,6 +49,7 @@
             android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textSize="13sp"
             android:text="xxxxxxxxxxxxxxxx"
             android:textColor="@color/common_h2" />
 
@@ -58,6 +60,7 @@
             android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textSize="12sp"
             android:text="xxxxxxxxxxxxxxxx"
             android:textColor="@color/common_h3" />
 

@@ -183,7 +183,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         mTvAuthor.setText(String.format(getString(R.string.book_detail_author), data.author));
         mTvCatgory.setText(String.format(getString(R.string.book_detail_category), data.cat));
         mTvWordCount.setText(FormatUtils.formatWordCount(data.wordCount));
-        mTvLatelyUpdate.setText(FormatUtils.formatDate(data.updated));
+        mTvLatelyUpdate.setText(FormatUtils.getDescriptionTimeFromDateString(data.updated));
         mTvLatelyFollower.setText(String.valueOf(data.latelyFollower));
         mTvRetentionRatio.setText(String.valueOf(data.retentionRatio));
         mTvSerializeWordCount.setText(String.valueOf(data.serializeWordCount));
@@ -202,7 +202,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
 
 
         Recommend recommend = new Recommend();
-        recommendBooks = recommend.new RecommendBooks();
+        recommendBooks = new Recommend.RecommendBooks();
 
         recommendBooks.title = data.title;
         recommendBooks._id = data._id;

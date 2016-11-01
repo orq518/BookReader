@@ -40,7 +40,7 @@ public class TabWidgetLayout extends LinearLayout {
      * 底部的icon
      */
     private int[] mDrawableIds = new int[]{R.drawable.home_tab0,
-            R.drawable.home_tab1, R.drawable.home_tab2,
+            R.drawable.home_tab2, R.drawable.home_tab1,
             R.drawable.home_tab3};
     public TabWidgetLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

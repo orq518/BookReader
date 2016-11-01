@@ -38,7 +38,7 @@ public class BookDiscussionActivity extends BaseCommuniteActivity {
 
     @Override
     public void initToolBar() {
-        mCommonToolbar.setTitle("综合讨论区");
+        mCommonToolbar.setTitle("精彩讨论区");
         mCommonToolbar.setNavigationIcon(R.drawable.ab_back);
     }
 

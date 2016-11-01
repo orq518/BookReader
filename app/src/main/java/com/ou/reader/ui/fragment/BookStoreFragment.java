@@ -16,8 +16,11 @@ import com.ou.reader.ui.activity.TopRankActivity;
 import com.ou.reader.ui.adapter.BookStoreAdapter;
 import com.ou.reader.ui.contract.TopCategoryListContract;
 import com.ou.reader.ui.presenter.TopCategoryListPresenter;
+import com.ou.reader.utils.Constants;
+import com.ou.reader.utils.DataTools;
 import com.ou.reader.view.MyGridView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,9 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
     MainActivity mActivity;
     ItemClickListener mMaleItemClickListener;
     ItemClickListener mFamaleItemClickListener;
+
+
+    CategoryList mCategoryList;
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_top_category_list;
@@ -52,6 +58,7 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
 
     @Override
     public void initDatas() {
+        mCategoryList = (CategoryList) DataTools.readData(mContext, Constants.KEY_BOOK_STORE);
     }
 
 
@@ -71,7 +78,9 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
 
         mMaleGridView.setOnItemClickListener(mMaleItemClickListener);
         femaleBooksGridView.setOnItemClickListener(mFamaleItemClickListener);
-
+        if(mCategoryList!=null){
+            showCategoryList(mCategoryList);
+        }
     }
 
     @Override
@@ -117,8 +126,19 @@ public class BookStoreFragment extends BaseFragment implements TopCategoryListCo
         mFemaleCategoryList.clear();
         mMaleCategoryList.addAll(data.male);
         mFemaleCategoryList.addAll(data.female);
+
+        if (mCategoryList!=null){
+            maleAdapter.setLastData((ArrayList<CategoryList.MaleBean>) mCategoryList.male);
+            famaleAdapter.setLastData((ArrayList<CategoryList.MaleBean>)mCategoryList.female);
+        }
         maleAdapter.setData((ArrayList<CategoryList.MaleBean>) mMaleCategoryList);
         famaleAdapter.setData((ArrayList<CategoryList.MaleBean>) mFemaleCategoryList);
+
+        try {
+            DataTools.writeData(mActivity, data, Constants.KEY_BOOK_STORE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     class ItemClickListener implements AdapterView.OnItemClickListener {

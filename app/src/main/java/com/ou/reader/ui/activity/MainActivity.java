@@ -97,6 +97,13 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     Menu mMenu;
     BaseFragment curFragment;
 
+//    NumberProgressBar mNumberProgressBar;
+//    RelativeLayout update_layout;
+//
+//    public static final String CACHE_FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MNUpdateAPK";
+//    public static final String APK_URL = "http://imtt.dd.qq.com/16891/9F03F89983AA629D689B49A3EB0746A1.apk";
+//    public static final String APK_NAME = "update";
+//    public static final String TAG = "update";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +114,9 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         initTabs();
         mTencent = Tencent.createInstance("1105670298", MainActivity.this);
     }
+
+
+
 
     public void initTabs() {
         mTabWidget = (TabWidgetLayout) findViewById(R.id.tab_widget);
@@ -140,6 +150,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
 
     @Override
     public void configViews() {
+//        update_layout= (RelativeLayout) findViewById(R.id.update_layout);
+//        mNumberProgressBar= (NumberProgressBar) findViewById(R.id.number_progress_bar);
         mPresenter.attachView(this);
     }
 
@@ -395,4 +407,38 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+//    public void download() {
+//
+//        new InstallUtils(this, APK_URL, CACHE_FILE_PATH, APK_NAME, new InstallUtils.DownloadCallBack() {
+//            @Override
+//            public void onStart() {
+//                Log.i(TAG, "onStart");
+//                update_layout.setVisibility(View.VISIBLE);
+//                mNumberProgressBar.setProgress(0);
+//            }
+//
+//            @Override
+//            public void onComplete(String path) {
+//                Log.i(TAG, "onComplete:" + path);
+//                InstallUtils.installAPK(MainActivity.this, path);
+//                mNumberProgressBar.setProgress(100);
+//                update_layout.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onLoading(long total, long current) {
+//                Log.i(TAG, "onLoading:-----total:" + total + ",current:" + current);
+//                mNumberProgressBar.setProgress((int) (current * 100 / total));
+//            }
+//
+//            @Override
+//            public void onFail(Exception e) {
+//                Log.i(TAG, "onFail:" + e.getMessage());
+//                update_layout.setVisibility(View.GONE);
+//            }
+//
+//        }).downloadAPK();
+//
+//    }
 }

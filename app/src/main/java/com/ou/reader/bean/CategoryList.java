@@ -2,6 +2,7 @@ package com.ou.reader.bean;
 
 import com.ou.reader.bean.base.Base;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class CategoryList extends Base {
 
     public List<MaleBean> female;
 
-    public static class MaleBean {
+    public static class MaleBean implements Serializable {
         public String name;
         public int bookCount;
     }

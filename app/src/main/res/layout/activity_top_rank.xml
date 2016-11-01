@@ -31,7 +31,7 @@
                 android:id="@+id/elvMale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerHeight="0dp"
+                android:dividerHeight="0.1dp"
                 android:childDivider="@drawable/shape_common_dash_divide"
                 android:groupIndicator="@null"
                 android:listSelector="@drawable/shape_common_selector" />
@@ -48,7 +48,7 @@
                 android:id="@+id/elvFeMale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerHeight="0dp"
+                android:dividerHeight="0.1dp"
                 android:childDivider="@drawable/shape_common_dash_divide"
                 android:groupIndicator="@null"
                 android:listSelector="@drawable/shape_common_selector" />

@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class BookStoreAdapter extends BaseAdapter {
     private List<CategoryList.MaleBean> mDataList = new ArrayList<>();
+    private List<CategoryList.MaleBean> mDataList_old = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context mContext;
 
@@ -32,7 +33,10 @@ public class BookStoreAdapter extends BaseAdapter {
         mDataList.addAll(data);
         notifyDataSetChanged();
     }
-
+    public void setLastData(ArrayList<CategoryList.MaleBean> data) {
+        mDataList_old.clear();
+        mDataList_old.addAll(data);
+    }
     public List<CategoryList.MaleBean> getData() {
         return mDataList;
     }
@@ -58,6 +62,8 @@ public class BookStoreAdapter extends BaseAdapter {
                     .findViewById(R.id.tvName);
             holder.tvBookCount = (TextView) convertView
                     .findViewById(R.id.tvBookCount);
+            holder.tvBookCount_add = (TextView) convertView
+                    .findViewById(R.id.tvBookCount_add);
             convertView.setTag(holder);
         } else {
             holder = (ItemHolder) convertView.getTag();
@@ -66,7 +72,18 @@ public class BookStoreAdapter extends BaseAdapter {
         holder.tvName.setText(bean.name);
         holder.tvBookCount.setText(String.format(mContext.getString(R.string
                 .category_book_count), bean.bookCount));
-
+        if(mDataList_old!=null&&mDataList_old.size()>position) {
+            CategoryList.MaleBean bean_last = mDataList_old.get(position);
+            if (bean_last != null && bean_last.bookCount > bean.bookCount) {
+                holder.tvBookCount_add.setVisibility(View.VISIBLE);
+                holder.tvBookCount_add.setText(String.format(mContext.getString(R.string
+                        .category_book_count_add), (bean_last.bookCount + bean.bookCount)));
+            } else {
+                holder.tvBookCount_add.setVisibility(View.GONE);
+            }
+        }else{
+            holder.tvBookCount_add.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -74,5 +91,6 @@ public class BookStoreAdapter extends BaseAdapter {
     class ItemHolder {
         TextView tvName;
         TextView tvBookCount;
+        TextView tvBookCount_add;
     }
 }

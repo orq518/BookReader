@@ -1,17 +1,17 @@
 package com.ou.reader.utils;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.os.Environment;
 
 import com.ou.reader.base.Constant;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,12 +19,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author yuyh.
  * @date 16/4/9.
  */
 public class FileUtils {
+
 
     public static String getChapterPath(String bookId, int chapter) {
         return Constant.BASE_PATH + bookId + File.separator + chapter + ".txt";
@@ -36,74 +39,58 @@ public class FileUtils {
             createFile(file);
         return file;
     }
-    public static String getCharset(String fileName) {
-        BufferedInputStream bis = null;
-        String charset = "GBK";
-        byte[] first3Bytes = new byte[3];
+
+    public static File getBookDir(String bookId) {
+        return new File(Constant.BASE_PATH + bookId);
+    }
+
+    public static File createWifiTempFile() {
+        String src = Constant.PATH_DATA + "/" + System.currentTimeMillis();
+        File file = new File(src);
+        if (!file.exists())
+            createFile(file);
+        return file;
+    }
+
+    /**
+     * 获取Wifi传书保存文件
+     *
+     * @param fileName
+     * @return
+     */
+    public static File createWifiTranfesFile(String fileName) {
+        LogUtils.i("wifi trans save " + fileName);
+        // 取文件名作为文件夹（bookid）
+        String absPath = Constant.BASE_PATH + "/" + fileName + "/1.txt";
+
+        File file = new File(absPath);
+        if (!file.exists())
+            createFile(file);
+        return file;
+    }
+
+    /**
+     * 读取Assets文件
+     *
+     * @param fileName
+     * @return
+     */
+    public static byte[] readAssets(String fileName) {
+        if (fileName == null || fileName.length() <= 0) {
+            return null;
+        }
+        byte[] buffer = null;
         try {
-            boolean checked = false;
-            bis = new BufferedInputStream(new FileInputStream(fileName));
-            bis.mark(0);
-            int read = bis.read(first3Bytes, 0, 3);
-            if (read == -1)
-                return charset;
-            if (first3Bytes[0] == (byte) 0xFF && first3Bytes[1] == (byte) 0xFE) {
-                charset = "UTF-16LE";
-                checked = true;
-            } else if (first3Bytes[0] == (byte) 0xFE
-                    && first3Bytes[1] == (byte) 0xFF) {
-                charset = "UTF-16BE";
-                checked = true;
-            } else if (first3Bytes[0] == (byte) 0xEF
-                    && first3Bytes[1] == (byte) 0xBB
-                    && first3Bytes[2] == (byte) 0xBF) {
-                charset = "UTF-8";
-                checked = true;
-            }
-            bis.mark(0);
-            if (!checked) {
-                while ((read = bis.read()) != -1) {
-                    if (read >= 0xF0)
-                        break;
-                    if (0x80 <= read && read <= 0xBF) // 单独出现BF以下的，也算是GBK
-                        break;
-                    if (0xC0 <= read && read <= 0xDF) {
-                        read = bis.read();
-                        if (0x80 <= read && read <= 0xBF) // 双字节 (0xC0 - 0xDF)
-                            // (0x80 - 0xBF),也可能在GB编码内
-                            continue;
-                        else
-                            break;
-                    } else if (0xE0 <= read && read <= 0xEF) {// 也有可能出错，但是几率较小
-                        read = bis.read();
-                        if (0x80 <= read && read <= 0xBF) {
-                            read = bis.read();
-                            if (0x80 <= read && read <= 0xBF) {
-                                charset = "UTF-8";
-                                break;
-                            } else
-                                break;
-                        } else
-                            break;
-                    }
-                }
-            }
+            InputStream fin = AppUtils.getAppContext().getAssets().open("uploader" + fileName);
+            int length = fin.available();
+            buffer = new byte[length];
+            fin.read(buffer);
+            fin.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            return buffer;
         }
-
-        return charset;
-    }
-    public static File getBookDir(String bookId) {
-        return new File(Constant.BASE_PATH + bookId);
     }
 
     /**
@@ -174,35 +161,12 @@ public class FileUtils {
         return "";
     }
 
-    public static String getImageCachePath(String path) {
-        return createDir(path);
-    }
-
-    /**
-     * 获取图片缓存目录
-     *
-     * @return 创建失败, 返回""
-     */
-    public static String getImageCachePath(Context context) {
-        String path = createDir(createRootPath(context) + File.separator + "img" + File.separator);
-        return path;
-    }
-
-    /**
-     * 获取图片裁剪缓存目录
-     *
-     * @return 创建失败, 返回""
-     */
-    public static String getImageCropCachePath(Context context) {
-        String path = createDir(createRootPath(context) + File.separator + "imgCrop" + File.separator);
-        return path;
-    }
-
     /**
      * 将内容写入文件
      *
      * @param filePath eg:/mnt/sdcard/demo.txt
      * @param content  内容
+     * @param isAppend 是否追加
      */
     public static void writeFile(String filePath, String content, boolean isAppend) {
         LogUtils.i("save:" + filePath);
@@ -225,24 +189,6 @@ public class FileUtils {
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 打开Asset下的文件
-     *
-     * @param context
-     * @param fileName
-     * @return
-     */
-    public static InputStream openAssetFile(Context context, String fileName) {
-        AssetManager am = context.getAssets();
-        InputStream is = null;
-        try {
-            is = am.open(fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return is;
     }
 
     /**
@@ -272,6 +218,25 @@ public class FileUtils {
         }
     }
 
+    public static byte[] getBytesFromFile(File f) {
+        if (f == null) {
+            return null;
+        }
+        try {
+            FileInputStream stream = new FileInputStream(f);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            for (int n; (n = stream.read(b)) != -1; ) {
+                out.write(b, 0, n);
+            }
+            stream.close();
+            out.close();
+            return out.toByteArray();
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
     /**
      * 文件拷贝
      *
@@ -279,6 +244,8 @@ public class FileUtils {
      * @param desc 目的文件
      */
     public static void fileChannelCopy(File src, File desc) {
+        //createFile(src);
+        createFile(desc);
         FileInputStream fi = null;
         FileOutputStream fo = null;
         try {
@@ -306,7 +273,7 @@ public class FileUtils {
      * @return
      */
     public static String formatFileSizeToString(long fileLen) {
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         String fileSizeString = "";
         if (fileLen < 1024) {
             fileSizeString = df.format((double) fileLen) + "B";
@@ -361,6 +328,31 @@ public class FileUtils {
         return false;
     }
 
+    /**
+     * 获取文件夹大小
+     *
+     * @return
+     * @throws Exception
+     */
+    public static long getFolderSize(String dir) throws Exception {
+        File file = new File(dir);
+        long size = 0;
+        try {
+            File[] fileList = file.listFiles();
+            for (int i = 0; i < fileList.length; i++) {
+                // 如果下面还有文件
+                if (fileList[i].isDirectory()) {
+                    size = size + getFolderSize(fileList[i].getAbsolutePath());
+                } else {
+                    size = size + fileList[i].length();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
     /***
      * 获取文件扩展名
      *
@@ -383,9 +375,10 @@ public class FileUtils {
      * @param path
      * @return
      */
-    public static String getFileOutputString(String path) {
+    public static String getFileOutputString(String path, String charset) {
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(path), 8192);
+            File file = new File(path);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset), 8192);
             StringBuilder sb = new StringBuilder();
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -397,5 +390,136 @@ public class FileUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 递归获取所有文件
+     *
+     * @param root
+     * @param ext  指定扩展名
+     */
+    private synchronized void getAllFiles(File root, String ext) {
+        List<File> list = new ArrayList<>();
+        File files[] = root.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    getAllFiles(f, ext);
+                } else {
+                    if (f.getName().endsWith(ext) && f.length() > 50)
+                        list.add(f);
+                }
+            }
+        }
+    }
+
+    public static String getCharset(String fileName) {
+        BufferedInputStream bis = null;
+        String charset = "GBK";
+        byte[] first3Bytes = new byte[3];
+        try {
+            boolean checked = false;
+            bis = new BufferedInputStream(new FileInputStream(fileName));
+            bis.mark(0);
+            int read = bis.read(first3Bytes, 0, 3);
+            if (read == -1)
+                return charset;
+            if (first3Bytes[0] == (byte) 0xFF && first3Bytes[1] == (byte) 0xFE) {
+                charset = "UTF-16LE";
+                checked = true;
+            } else if (first3Bytes[0] == (byte) 0xFE
+                    && first3Bytes[1] == (byte) 0xFF) {
+                charset = "UTF-16BE";
+                checked = true;
+            } else if (first3Bytes[0] == (byte) 0xEF
+                    && first3Bytes[1] == (byte) 0xBB
+                    && first3Bytes[2] == (byte) 0xBF) {
+                charset = "UTF-8";
+                checked = true;
+            }
+            bis.mark(0);
+            if (!checked) {
+                while ((read = bis.read()) != -1) {
+                    if (read >= 0xF0)
+                        break;
+                    if (0x80 <= read && read <= 0xBF) // 单独出现BF以下的，也算是GBK
+                        break;
+                    if (0xC0 <= read && read <= 0xDF) {
+                        read = bis.read();
+                        if (0x80 <= read && read <= 0xBF) // 双字节 (0xC0 - 0xDF)
+                            // (0x80 - 0xBF),也可能在GB编码内
+                            continue;
+                        else
+                            break;
+                    } else if (0xE0 <= read && read <= 0xEF) {// 也有可能出错，但是几率较小
+                        read = bis.read();
+                        if (0x80 <= read && read <= 0xBF) {
+                            read = bis.read();
+                            if (0x80 <= read && read <= 0xBF) {
+                                charset = "UTF-8";
+                                break;
+                            } else
+                                break;
+                        } else
+                            break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return charset;
+    }
+
+    public static String getCharset1(String fileName) throws IOException {
+        BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName));
+        int p = (bin.read() << 8) + bin.read();
+
+        String code;
+        switch (p) {
+            case 0xefbb:
+                code = "UTF-8";
+                break;
+            case 0xfffe:
+                code = "Unicode";
+                break;
+            case 0xfeff:
+                code = "UTF-16BE";
+                break;
+            default:
+                code = "GBK";
+        }
+        return code;
+    }
+
+    public static void saveWifiTxt(String src, String desc) {
+        byte[] LINE_END = "\n".getBytes();
+        try {
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(src), getCharset(src));
+            BufferedReader br = new BufferedReader(isr);
+
+            FileOutputStream fout = new FileOutputStream(desc, true);
+            String temp;
+            while ((temp = br.readLine()) != null) {
+                byte[] bytes = temp.getBytes();
+                fout.write(bytes);
+                fout.write(LINE_END);
+            }
+            br.close();
+            fout.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

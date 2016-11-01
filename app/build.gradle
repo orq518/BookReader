@@ -78,4 +78,5 @@ dependencies {
     // Bus
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/Bughd_android_sdk_v1.3.7.jar')
+    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
 }

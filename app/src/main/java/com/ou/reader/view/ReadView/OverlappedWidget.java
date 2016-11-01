@@ -48,6 +48,9 @@ public class OverlappedWidget extends BaseReadView {
 
     @Override
     protected void drawCurrentPageArea(Canvas canvas) {
+        if(notDraw){
+            return;
+        }
         mPath0.reset();
         mPath0.moveTo(mTouch.x, 0);
         mPath0.lineTo(mTouch.x, mScreenHeight);
@@ -73,6 +76,9 @@ public class OverlappedWidget extends BaseReadView {
 
     @Override
     protected void drawCurrentPageShadow(Canvas canvas) {
+        if(notDraw){
+            return;
+        }
         canvas.save();
         GradientDrawable shadow;
         if (actiondownX > mScreenWidth >> 1) {
@@ -96,6 +102,9 @@ public class OverlappedWidget extends BaseReadView {
 
     @Override
     protected void drawNextPageAreaAndShadow(Canvas canvas) {
+        if(notDraw){
+            return;
+        }
         canvas.save();
         if (actiondownX > mScreenWidth >> 1) {
             canvas.clipPath(mPath0);
@@ -119,6 +128,9 @@ public class OverlappedWidget extends BaseReadView {
     @Override
     public void computeScroll() {
         super.computeScroll();
+        if(notDraw){
+            return;
+        }
         if (mScroller.computeScrollOffset()) {
             float x = mScroller.getCurrX();
             float y = mScroller.getCurrY();
@@ -129,6 +141,9 @@ public class OverlappedWidget extends BaseReadView {
     }
 
     private void startAnimation() {
+        if(notDraw){
+            return;
+        }
         int dx;
         if (actiondownX > mScreenWidth / 2) {
             dx = (int) (-mTouch.x);
@@ -139,12 +154,18 @@ public class OverlappedWidget extends BaseReadView {
     }
 
     public void abortAnimation() {
+        if(notDraw){
+            return;
+        }
         if (!mScroller.isFinished()) {
             mScroller.abortAnimation();
         }
     }
 
     public void restoreAnimation() {
+        if(notDraw){
+            return;
+        }
         int dx;
         if (actiondownX > mScreenWidth / 2) {
             dx = (int) (mScreenWidth - mTouch.x);
@@ -157,7 +178,7 @@ public class OverlappedWidget extends BaseReadView {
     private int dx, dy;
     private long et = 0;
     private boolean cancel = false;
-
+    boolean notDraw;
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
@@ -171,9 +192,11 @@ public class OverlappedWidget extends BaseReadView {
                 actiondownY = dy;
                 if (actiondownX >= mScreenWidth / 3 && actiondownX <= mScreenWidth * 2 / 3
                         && actiondownY >= mScreenHeight / 3 && actiondownY <= mScreenHeight * 2 / 3) {
+                    notDraw=false;
                     listener.onCenterClick();
                     return false;//停止向下分发事件
                 }
+                notDraw=false;
                 pagefactory.onDraw(mCurrentPageCanvas);
                 if (actiondownX < mScreenWidth / 2) {// 从左翻
                     if (!pagefactory.prePage()) {

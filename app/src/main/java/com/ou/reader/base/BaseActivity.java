@@ -1,8 +1,10 @@
 package com.ou.reader.base;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -27,16 +29,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int statusBarColor = 0;
     private boolean mNowMode;
     private CustomDialog dialog;//进度条
-
+    protected View statusBarView = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        if (statusBarColor > 0) {
-            StatusBarCompat.compat(this, statusBarColor);
-        } else if (statusBarColor == 0) {
-            StatusBarCompat.compat(this);
+        if (statusBarColor == 0) {
+            statusBarView = StatusBarCompat.compat(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        } else if (statusBarColor != -1) {
+            statusBarView = StatusBarCompat.compat(this, statusBarColor);
         }
+//        if (statusBarColor > 0) {
+//            StatusBarCompat.compat(this, statusBarColor);
+//        } else if (statusBarColor == 0) {
+//            StatusBarCompat.compat(this);
+//        }
+        transparent19and20();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                 && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             //透明状态栏
@@ -54,7 +62,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         configViews();
         mNowMode = SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT);
     }
-
+    protected void transparent19and20() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -146,5 +160,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    protected void hideStatusBar() {
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setAttributes(attrs);
+        if(statusBarView != null){
+            statusBarView.setBackgroundColor(Color.TRANSPARENT);
+        }
+    }
 
+    protected void showStatusBar() {
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setAttributes(attrs);
+        if(statusBarView != null){
+            statusBarView.setBackgroundColor(statusBarColor);
+        }
+    }
 }

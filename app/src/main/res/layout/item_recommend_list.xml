@@ -32,7 +32,7 @@
             android:maxEms="15"
             android:singleLine="true"
             android:textColor="@color/common_h1"
-            android:textSize="16sp"
+            android:textSize="15sp"
             tools:text="逆鳞"/>
 
         <TextView
@@ -43,6 +43,7 @@
             android:ellipsize="end"
             android:maxEms="15"
             android:singleLine="true"
+            android:textSize="13sp"
             android:textColor="@color/common_h2"
             tools:text="第二卷、逆水行舟！第四百六十五章、打蛇七寸！"/>
     </LinearLayout>
