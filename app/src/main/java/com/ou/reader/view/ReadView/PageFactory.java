@@ -364,7 +364,7 @@ public class PageFactory {
             }
             currentPage++;
         }
-        //SettingManager.getInstance().saveReadProgress(bookId, currentChapter, curBeginPos, curEndPos);
+        //ListenSettingManager.getInstance().saveReadProgress(bookId, currentChapter, curBeginPos, curEndPos);
         return lines;
     }
 

@@ -1,6 +1,37 @@
 
 新加听书的url
 
+首页
+http://wellsoftteam.com/voice/main/getmaindata
+
+    主播的   title=“主播名”
+    http://wellsoftteam.com/voice/list/voicesearchpage?pageNum=1&title=%E9%9D%92%E9%9B%AA
+
+
+
+分类
+http://wellsoftteam.com/voice/main/getmainfldata
+返回有id
+
+    单个分类url  types=id
+    http://wellsoftteam.com/voice/list/voicetypepage?pageNum=1&title=&keyword=&types=4028818b451343a10145134427350001&ordercode=
+
+
+各个排行
+http://wellsoftteam.com/voice/main/getmainvoicedata?categoryindex=1
+http://wellsoftteam.com/voice/main/getmainvoicedata?categoryindex=2
+http://wellsoftteam.com/voice/main/getmainvoicedata?categoryindex=3
+
+    单个排行的更多   types=排行的id，上个接口返回
+    http://wellsoftteam.com/voice/list/voicetypepage?pageNum=1&title=&keyword=&types=4028818b451343a10145134427090000&ordercode=updatetime
+
+
+专题
+http://wellsoftteam.com/voice/main/getmainztdata
+
+    推荐专题   title=gcd    关键词首页接口返回
+    http://wellsoftteam.com/voice/list/voicesearchpage?pageNum=1&title=gcd
+
 
 
 听书的搜索url
@@ -30,7 +61,6 @@ http://wellsoftteam.com/voice/list/voicesearchpage?pageNum=1&title=陈二狗
         }
     ]
 }
-
 
 
 typeid：id
