@@ -232,7 +232,8 @@ public final class LoggingInterceptor implements Interceptor {
 
                 if (contentLength != 0) {
                     logger.log("");
-                    logger.log(buffer.clone().readString(charset));
+                    String dataString=buffer.clone().readString(charset);
+                    logger.log("data:"+dataString);
                 }
 
                 logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");

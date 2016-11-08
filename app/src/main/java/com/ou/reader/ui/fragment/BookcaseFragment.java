@@ -45,6 +45,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+/**
+ * 书架fragemnt
+ */
 public class BookCaseFragment extends BaseRVFragment<RecommendPresenter, Recommend.RecommendBooks> implements RecommendContract.View, RecyclerArrayAdapter.OnItemLongClickListener {
 
     @Bind(R.id.llBatchManagement)
@@ -58,7 +61,10 @@ public class BookCaseFragment extends BaseRVFragment<RecommendPresenter, Recomme
     private boolean isSelectAll = false;
 
     private List<BookToc.mixToc.Chapters> chaptersList = new ArrayList<>();
-
+    public static BookCaseFragment newInstance() {
+        BookCaseFragment fragment = new BookCaseFragment();
+        return fragment;
+    }
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_recommend;

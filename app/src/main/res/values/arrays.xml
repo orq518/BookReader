@@ -49,4 +49,8 @@
         <item>男生</item>
         <item>女生</item>
     </string-array>
+    <string-array name="home_tab">
+        <item>书架</item>
+        <item>推荐</item>
+    </string-array>
 </resources>

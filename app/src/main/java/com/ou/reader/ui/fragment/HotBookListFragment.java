@@ -64,6 +64,7 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
     MainActivity mActivity;
     private FragmentManager fm;
     private String currentTag = "";
+
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_subject_book_list_tag;
@@ -105,9 +106,9 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
         mTagAdapter.setItemClickListener(this);
         rvTags.setAdapter(mTagAdapter);
 //        Log.e("ouou","mPresenter:"+mPresenter);
-        if(mPresenter!=null) {
-        mPresenter.attachView(this);
-        mPresenter.getBookListTags();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+            mPresenter.getBookListTags();
         }
     }
 
@@ -122,7 +123,7 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        mActivity= (MainActivity) getActivity();
+        mActivity = (MainActivity) getActivity();
         fm = mActivity.getSupportFragmentManager();
         DaggerFindComponent.builder()
                 .appComponent(appComponent)
@@ -170,6 +171,7 @@ public class HotBookListFragment extends BaseFragment implements SubjectBookList
     public void complete() {
 
     }
+
     private void showTagGroup() {
         if (mTagList.isEmpty()) {
             ToastUtils.showToast(getString(R.string.network_error_tips));

@@ -68,4 +68,12 @@
     <color name="home_tab_divider">#d1d1d1</color>
     <color name="home_tab_bg">#ffffff</color>
 
+
+
+    <color name="dark_orchid">#a62ab9</color>
+    <color name="mantis">#55b859</color>
+    <color name="usc_gold">#fec804</color>
+    <color name="dodger_blue">#249ff4</color>
+    <color name="portland_orange">#fc5f23</color>
+
 </resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        tools:background="@color/gray">
+        <ImageView
+            android:id="@+id/ivSportPreview"
+            android:layout_width="@dimen/book_cover_width"
+            android:layout_height="@dimen/book_cover_height"
+            android:src="@drawable/icon"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/tvSportTitle"
+            style="@style/SportCardStyle.SportTile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:layout_below="@id/ivSportPreview"
+            android:lines="1"
+            android:maxLines="1"
+            tools:text="标题" />
+
+        <TextView
+            android:id="@+id/tvSportSubtitle"
+            style="@style/SportCardStyle.SportSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvSportTitle"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="简介" />
+
+
+
+        <TextView
+            android:id="@+id/tvTime"
+            style="@style/SportCardStyle.Time"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/tvSportSubtitle"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            tools:text="作者" />
+
+        <TextView
+            android:id="@+id/tvDayPart"
+            style="@style/SportCardStyle.DayPart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTime"
+            android:layout_centerHorizontal="true"
+            android:lines="1"
+            android:ellipsize="marquee"
+            tools:text="更新章节" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

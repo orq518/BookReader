@@ -58,6 +58,10 @@
         <activity android:name="com.ou.reader.ui.activity.BookDetailCommunityActivity" />
         <activity android:name="com.ou.reader.ui.activity.GirlBookDiscussionActivity" />
         <activity android:name="com.ou.reader.ui.activity.MyBookListActivity" />
+        <activity android:name="com.ou.reader.listener.activity.ListenHomeActivity" />
+
+
+
 
         <service android:name="com.ou.reader.service.DownloadBookService" />
 
@@ -82,10 +86,6 @@
         <activity
             android:name="com.ou.reader.listener.activity.PlayActivity"
             android:launchMode="singleTask" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <service
             android:name="com.ou.reader.listener.service.MusicService"

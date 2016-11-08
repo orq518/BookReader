@@ -7,6 +7,7 @@ import com.ou.reader.ui.activity.SubjectBookListDetailActivity;
 import com.ou.reader.ui.activity.TopCategoryListActivity;
 import com.ou.reader.ui.activity.TopRankActivity;
 import com.ou.reader.ui.fragment.BookCommentsFragment;
+import com.ou.reader.ui.fragment.BookHomeFragment;
 import com.ou.reader.ui.fragment.BookStoreChildFragment;
 import com.ou.reader.ui.fragment.BookStoreFragment;
 import com.ou.reader.ui.fragment.HotBookListFragment;
@@ -48,4 +49,5 @@ public interface FindComponent {
     BookStoreFragment inject(BookStoreFragment bookStoreFragment);
     BookCommentsFragment inject(BookCommentsFragment bookCommentsFragment);
     BookStoreChildFragment inject(BookStoreChildFragment bookStoreChildFragment);
+    BookHomeFragment inject(BookHomeFragment bookHomeFragment);
 }

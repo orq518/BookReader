@@ -28,6 +28,7 @@ package com.ou.reader.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDelegate;
@@ -46,6 +47,7 @@ import com.ou.reader.base.Constant;
 import com.ou.reader.bean.user.TencentLoginResult;
 import com.ou.reader.component.AppComponent;
 import com.ou.reader.component.DaggerMainComponent;
+import com.ou.reader.listener.activity.ListenHomeActivity;
 import com.ou.reader.service.DownloadBookService;
 import com.ou.reader.ui.contract.MainContract;
 import com.ou.reader.ui.fragment.BookCaseFragment;
@@ -88,6 +90,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     public IUiListener loginListener;
     private FragmentManager fm;
 
+//    BookHomeFragment mBookHomeFragment;
     BookCaseFragment mBookCaseFragment;
     BookStoreFragment mBookStoreFragment;
     HotBookListFragment mHotBookListFragment;
@@ -97,6 +100,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
     Menu mMenu;
     BaseFragment curFragment;
 
+
+    FloatingActionButton fab_play;
 //    NumberProgressBar mNumberProgressBar;
 //    RelativeLayout update_layout;
 //
@@ -123,6 +128,14 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         mTabWidget.setOnTabSelectedListener(this);
         showFragment(0);
         mTabWidget.setTabsDisplay(this, 0);
+
+        fab_play= (FloatingActionButton) findViewById(R.id.fab_play);
+        fab_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, ListenHomeActivity.class));
+            }
+        });
     }
 
     @Override

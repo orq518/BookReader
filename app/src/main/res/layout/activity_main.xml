@@ -45,6 +45,7 @@
         app:fmm_backgroundTint="@color/white"
         app:fmm_button_space="4dp"
         app:fmm_cover="@drawable/icon"
+        android:visibility="gone"
         app:fmm_progress_color="?attr/colorPrimary"
         app:fmm_progress_percent="3"
         app:layout_behavior=".ui.widgets.floatingmusicmenu.FloatingMusicMenu$Behavior">
@@ -54,6 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_pause"
+            android:clickable="true"
+            app:borderWidth="0dp"
             app:fabSize="mini" />
 
         <android.support.design.widget.FloatingActionButton
@@ -61,13 +64,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_play_next"
+            android:clickable="true"
+            app:borderWidth="0dp"
             app:fabSize="mini" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:src="@drawable/ic_play_repeat"
+            app:borderWidth="0dp"
             app:fabSize="mini" />
 
         <android.support.design.widget.FloatingActionButton
@@ -75,6 +82,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_play_detail"
+            android:clickable="true"
+            app:borderWidth="0dp"
             app:fabSize="mini" />
 
 
