@@ -198,13 +198,14 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
             case R.id.action_search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
-//            case R.id.action_login:
+            case R.id.action_login:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
 //                if (popupWindow == null) {
 //                    popupWindow = new LoginPopupWindow(this);
 //                    popupWindow.setLoginTypeListener(this);
 //                }
 //                popupWindow.showAtLocation(mCommonToolbar, Gravity.CENTER, 0, 0);
-//                break;
+                break;
 //            case R.id.action_my_message:
 //                break;
 //            case R.id.action_sync_bookshelf:
