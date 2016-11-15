@@ -1,1 +1,1 @@
-include ':app', ':EasyAdapterLibrary',':fanlayout_library'
+include ':app', ':EasyAdapterLibrary', ':fanlayout_library', ':updatefun'

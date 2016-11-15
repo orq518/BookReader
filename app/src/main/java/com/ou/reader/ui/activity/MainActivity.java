@@ -71,6 +71,9 @@ import java.lang.reflect.Method;
 
 import javax.inject.Inject;
 
+import cn.hugeterry.updatefun.UpdateFunGO;
+import cn.hugeterry.updatefun.config.UpdateKey;
+
 /**
  * https://github.com/JustWayward/BookReader
  */
@@ -118,10 +121,29 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
         configViews();
         initTabs();
         mTencent = Tencent.createInstance("1105670298", MainActivity.this);
+        initUpdate();
+
+    }
+    public void initUpdate(){
+        //此处填上在http://fir.im/注册账号后获得的API_TOKEN以及APP的应用ID
+        UpdateKey.API_TOKEN =com.ou.reader.utils.Constants.API_TOKEN;
+        UpdateKey.APP_ID = com.ou.reader.utils.Constants.APP_ID;
+        //如果你想通过Dialog来进行下载，可以如下设置
+        //UpdateKey.DialogOrNotification=UpdateKey.WITH_DIALOG;
+        UpdateFunGO.init(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UpdateFunGO.onResume(this);
+    }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        UpdateFunGO.onStop(this);
+    }
 
     public void initTabs() {
         mTabWidget = (TabWidgetLayout) findViewById(R.id.tab_widget);
@@ -198,14 +220,14 @@ public class MainActivity extends BaseActivity implements MainContract.View, Log
             case R.id.action_search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
-            case R.id.action_login:
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//                if (popupWindow == null) {
-//                    popupWindow = new LoginPopupWindow(this);
-//                    popupWindow.setLoginTypeListener(this);
-//                }
-//                popupWindow.showAtLocation(mCommonToolbar, Gravity.CENTER, 0, 0);
-                break;
+//            case R.id.action_login:
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+////                if (popupWindow == null) {
+////                    popupWindow = new LoginPopupWindow(this);
+////                    popupWindow.setLoginTypeListener(this);
+////                }
+////                popupWindow.showAtLocation(mCommonToolbar, Gravity.CENTER, 0, 0);
+//                break;
 //            case R.id.action_my_message:
 //                break;
 //            case R.id.action_sync_bookshelf:

@@ -9,8 +9,6 @@ android {
         applicationId "com.ou.reader"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
     }
     //签名设置
     signingConfigs {
@@ -80,4 +78,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/Bughd_android_sdk_v1.3.7.jar')
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
+    compile project(':updatefun')
 }
