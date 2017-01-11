@@ -18,6 +18,7 @@ import com.ou.reader.component.AppComponent;
 import com.ou.reader.utils.SharedPreferencesUtil;
 import com.ou.reader.utils.StatusBarCompat;
 import com.ou.reader.view.loadding.CustomDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -80,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             recreate();
         }
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -151,7 +153,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             dialog = null;
         }
     }
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

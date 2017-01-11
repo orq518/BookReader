@@ -57,7 +57,7 @@ import com.ou.reader.utils.SharedPreferencesUtil;
 import com.ou.reader.utils.ToastUtils;
 import com.ou.reader.view.ReadView.BaseReadView;
 import com.ou.reader.view.ReadView.OnReadStateChangeListener;
-import com.ou.reader.view.ReadView.OverlappedWidget;
+import com.ou.reader.view.ReadView.PageWidget;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -304,8 +304,8 @@ public class ReadActivity extends BaseActivity implements BookReadContract.View 
     }
 
     private void initPagerWidget() {
-//        mPageWidget = new PageWidget(this, recommendBooks._id, mChapterList, new ReadListener());// 页面
-        mPageWidget = new OverlappedWidget(this, recommendBooks._id, mChapterList, new ReadListener());
+        mPageWidget = new PageWidget(this, recommendBooks._id, mChapterList, new ReadListener());// 页面
+//        mPageWidget = new OverlappedWidget(this, recommendBooks._id, mChapterList, new ReadListener());
         registerReceiver(receiver, intentFilter);
         if (SharedPreferencesUtil.getInstance().getBoolean(Constant.ISNIGHT, false)) {
             mPageWidget.setTextColor(ContextCompat.getColor(this, R.color.chapter_content_night),

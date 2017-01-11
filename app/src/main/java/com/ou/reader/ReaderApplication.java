@@ -16,6 +16,7 @@ import com.ou.reader.utils.SharedPreferencesUtil;
 import com.sinovoice.hcicloudsdk.api.HciCloudSys;
 import com.sinovoice.hcicloudsdk.common.HciErrorCode;
 import com.sinovoice.hcicloudsdk.common.InitParam;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author yuyh.
@@ -35,6 +36,17 @@ public class ReaderApplication extends Application {
         initPrefs();
         initNightMode();
         initHciCloud();
+        initUM();
+    }
+
+    public void initUM() {
+        /**
+         * 当应用在后台运行超过30秒（默认）再回到前端，将被认为是两个独立的session(启动)，例如用户回到home，或进入其他程序，经过一段时间后再返回之前的应用
+         * 该方法用于自定义这个间隔，参数为毫秒
+         * */
+        MobclickAgent.setSessionContinueMillis(30 * 1000);
+        MobclickAgent.setDebugMode(true);
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
     }
 
     public static ReaderApplication getsInstance() {
@@ -77,7 +89,7 @@ public class ReaderApplication extends Application {
         initparam.addParam(InitParam.AuthParam.PARAM_KEY_CLOUD_URL, "test.api.hcicloud.com:8888");
         initparam.addParam(InitParam.AuthParam.PARAM_KEY_DEVELOPER_KEY, "0a5e69f8fb1c019b2d87a17acf200889");
         initparam.addParam(InitParam.AuthParam.PARAM_KEY_APP_KEY, "0d5d5466");
-        String logDirPath = FileUtils.createRootPath(this)+"/hcicloud";
+        String logDirPath = FileUtils.createRootPath(this) + "/hcicloud";
         FileUtils.createDir(logDirPath);
         initparam.addParam(InitParam.LogParam.PARAM_KEY_LOG_FILE_PATH, logDirPath);
         initparam.addParam(InitParam.LogParam.PARAM_KEY_LOG_FILE_COUNT, "5");
@@ -85,7 +97,7 @@ public class ReaderApplication extends Application {
         initparam.addParam(InitParam.LogParam.PARAM_KEY_LOG_LEVEL, "5");
         int errCode = HciCloudSys.hciInit(initparam.getStringConfig(), this);
         if (errCode != HciErrorCode.HCI_ERR_NONE) {
-            LogUtils.e("HciCloud初始化失败"+errCode);
+            LogUtils.e("HciCloud初始化失败" + errCode);
             return;
         }
         LogUtils.e("HciCloud初始化成功");
